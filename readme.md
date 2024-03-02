@@ -1,4 +1,4 @@
-## Chat with websites: Langchain, ChatGPT, Pinecone, and Streamlit: | Code
+## Chat with Websites: LangChain Chatbot Integration via Streamlit Interface and Pinecone vector store
 
 - https://www.youtube.com/watch?v=nAKhxQ3hcMA&ab_channel=PradipNichite
 
