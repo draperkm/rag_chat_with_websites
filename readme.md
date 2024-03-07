@@ -6,7 +6,7 @@
 
 Large pre-trained language models have been shown to store factual knowledge in their parameters, and achieve state-of-the-art results when fine-tuned on downstream NLP tasks. However, their ability to access and precisely manipulate knowledge is still limited, and hence on knowledge-intensive tasks, their performance lags behind task-specific architectures [5].
 
-![Schema](docs/Schema.jpg)
+![Schema](docs/schema2.jpg)
 
 ### Why are LLMs more accurate with documents rather than pure hallucination from general context?
 This is important because what is happening is that some documents are indexed and retrieved, so the LLM can sum up them. But why is that more accurate than an hallucination? LLMs are only able to hallucinate or also doing other stuff such as summing up coherently an existing text?
