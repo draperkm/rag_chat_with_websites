@@ -8,7 +8,12 @@ Large pre-trained language models have been shown to store factual knowledge in 
 
 ![Schema](docs/schema2.jpg)
 
-### Why are LLMs more accurate with documents rather than pure hallucination from general context?
+**Problems**:
+- one
+- two
+- three
+
+#### Why are LLMs more accurate with documents rather than pure hallucination from general context?
 This is important because what is happening is that some documents are indexed and retrieved, so the LLM can sum up them. But why is that more accurate than an hallucination? LLMs are only able to hallucinate or also doing other stuff such as summing up coherently an existing text?
 
 RAG can be particularly useful when the pre-trained language model alone may not have the necessary information to generate accurate or sufficiently detailed responses since standard general language models are not capable of accessing post-training/external information directly [2].
@@ -40,7 +45,16 @@ Typical RAG setup:
 
 ## Engineering RAG
 
+Engineering a RAG is a complex task, and a good start is this paper:
+
+
+
 ![Engineering](docs/engineering_rag.jpg)
+
+## Create Graphical User Interface
+
+## Create Chat Component 
+
 
 ## Document indexing
 
@@ -82,3 +96,7 @@ https://blog.futuresmart.ai/langchain-memory-with-llms-for-advanced-conversation
 ](https://doi.org/10.48550/arXiv.2005.11401)
 
 6. [Open Source LLMs: Viable for Production or a Low-Quality Toy?](https://www.anyscale.com/blog/open-source-llms-viable-for-production-or-a-low-quality-toy)
+
+7. [A High-level Overview of Large Language Models](https://www.borealisai.com/research-blogs/a-high-level-overview-of-large-language-models/)
+
+8. [Contemporary Large Language Models LLMs](https://www.kaggle.com/code/abireltaief/contemporary-large-language-models-llms)
