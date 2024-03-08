@@ -100,3 +100,5 @@ https://blog.futuresmart.ai/langchain-memory-with-llms-for-advanced-conversation
 7. [A High-level Overview of Large Language Models](https://www.borealisai.com/research-blogs/a-high-level-overview-of-large-language-models/)
 
 8. [Contemporary Large Language Models LLMs](https://www.kaggle.com/code/abireltaief/contemporary-large-language-models-llms)
+
+9. [AI Chip Market](https://research.aimultiple.com/ai-chip-makers/)
