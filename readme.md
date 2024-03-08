@@ -2,6 +2,8 @@
 
 - https://www.youtube.com/watch?v=nAKhxQ3hcMA&ab_channel=PradipNichite
 
+A language model is built to process and understand a text input (prompt), and then generate a text output (response) accordingly. These models are usually trained on an extensive corpus of unlabeled text, allowing them to learn general linguistic patterns and acquire a wide knowledge base. The primary distinction between a regular language model and a large language model lies in the number of parameters used.
+
 ![Size](docs/sizechart.jpg)
 
 ## Problems of large pre-trained language models
