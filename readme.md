@@ -2,11 +2,14 @@
 
 - https://www.youtube.com/watch?v=nAKhxQ3hcMA&ab_channel=PradipNichite
 
+![Size](docs/sizechart.jpg)
+
 ## Problems of large pre-trained language models
 
 Large pre-trained language models have been shown to store factual knowledge in their parameters, and achieve state-of-the-art results when fine-tuned on downstream NLP tasks. However, their ability to access and precisely manipulate knowledge is still limited, and hence on knowledge-intensive tasks, their performance lags behind task-specific architectures [5].
 
 ![Schema](docs/schema2.jpg)
+![Schema3](docs/schema3.jpg)
 
 **Problems**:
 - one
@@ -31,7 +34,7 @@ Paradigm:
 https://www.youtube.com/watch?v=tcqEUSNCn8I&ab_channel=pixegami
 
 ![RAG Diagram 1](docs/RAG_diag_1.jpg)
-![Frozen RAG](docs/frozen_rag.jpg)
+![RAG expand](docs/rag_expand.jpg) [7]
 ![RAG Diagram](docs/RAG_diagram.jpg)
 
 Typical RAG setup:
