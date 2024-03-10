@@ -1,7 +1,5 @@
 # Chat with any website using LangChain, Pinecone and Streamlit
 
-## Table of contents
-
 1. [Intro](#problems-of-large-pre-trained-language-models)
 
 2. [What RAG are](#rag-retrieval-augmented-generation)
