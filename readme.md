@@ -1,6 +1,4 @@
-# Retrieval Augmented Generation (RAG)
-
-Chat with any website using LangChain, Pinecone and Streamlit
+# Chat with any website using LangChain, Pinecone and Streamlit via Retrieval-Augmented Generation
 
 Examples:
 
@@ -45,7 +43,7 @@ RAG can be particularly useful when the pre-trained language model alone may not
 
 In conclusion RAGs find their true motivation, in delimiting the LLM to act only on a limited set of data, making fine-tuning not strictly necessary, resulting in time saving and cost saving, even if there is a threshold where fine-tuning would be preferable (the bot must be generalistic).
 
-# RAG: Retrieval-Augmented Generation
+# Retrieval-Augmented Generation (RAG)
 
 A RAG (Retrieval-Augmented Generation) application refers to a class of generative models that enhance their output by incorporating external information. The process involves two main steps: retrieval and generation. First, given a prompt or query, the model retrieves relevant information from a large dataset or knowledge base. This retrieved context is then attached to the original prompt, effectively expanding the model's context window with pertinent information. In the second step, the generative component of the model uses this augmented prompt to generate a response or output [Original ChatGPT].
 
