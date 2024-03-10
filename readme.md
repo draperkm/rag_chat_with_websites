@@ -1,6 +1,18 @@
 # Chat with any website using LangChain, Pinecone and Streamlit
 
-- https://www.youtube.com/watch?v=nAKhxQ3hcMA&ab_channel=PradipNichite
+## Table of contents
+
+1. [Intro](#problems-of-large-pre-trained-language-models)
+
+2. [What RAG are](#rag-retrieval-augmented-generation)
+
+3. [Code explanation](#code-explanation)
+
+4. [Results]()
+
+5. [Deployment](#deploy-the-app)
+
+## Introduction
 
 A language model is built to process and understand a text input (prompt), and then generate a text output (response) accordingly. These models are usually trained on an extensive corpus of unlabeled text, allowing them to learn general linguistic patterns and acquire a wide knowledge base. The primary distinction between a regular language model and a large language model lies in the number of parameters used.
 
@@ -52,9 +64,13 @@ Typical RAG setup:
 
 Engineering a RAG is a complex task, and a good start is this paper:
 
-
-
 ![Engineering](docs/engineering_rag.jpg)
+
+# Code explanation
+
+https://blog.futuresmart.ai/building-an-interactive-chatbot-with-langchain-chatgpt-pinecone-and-streamlit
+
+https://www.youtube.com/watch?v=nAKhxQ3hcMA&ab_channel=PradipNichite
 
 ## Create Graphical User Interface
 
@@ -83,9 +99,11 @@ Embeddings dimension depend from the embedding model, that has to match Pinecone
 
 https://blog.futuresmart.ai/langchain-memory-with-llms-for-advanced-conversational-ai-and-chatbots
 
+# Deploy the app
+
 ## Environment requirements
 
-## Deploy the app
+## Running the app
 
 ## References
 
@@ -107,3 +125,5 @@ https://blog.futuresmart.ai/langchain-memory-with-llms-for-advanced-conversation
 8. [Contemporary Large Language Models LLMs](https://www.kaggle.com/code/abireltaief/contemporary-large-language-models-llms)
 
 9. [AI Chip Market](https://research.aimultiple.com/ai-chip-makers/) 
+
+10. [Building an Interactive Chatbot with Langchain, ChatGPT, Pinecone, and Streamlit](https://blog.futuresmart.ai/building-an-interactive-chatbot-with-langchain-chatgpt-pinecone-and-streamlit)
