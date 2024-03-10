@@ -1,4 +1,12 @@
-# Chat with any website using LangChain, Pinecone and Streamlit
+# Retrieval Augmented Generation (RAG)
+
+Chat with any website using LangChain, Pinecone and Streamlit
+
+Examples:
+
+https://github.com/weaviate/Verba
+
+https://github.com/PavloFesenko/gif_analyzer?tab=readme-ov-file#Introduction
 
 1. [Intro](#problems-of-large-pre-trained-language-models)
 
@@ -8,7 +16,7 @@
 
 4. [Results]()
 
-5. [Deployment](#deploy-the-app)
+5. [Quickstart](#deploy-the-app)
 
 6. [References](#references)
 
