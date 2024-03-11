@@ -1,4 +1,6 @@
-# Chat with any website using LangChain, Pinecone and Streamlit via Retrieval-Augmented Generation
+# Building a RAG application from scratch
+
+Chat with any website using LangChain, Pinecone and Streamlit via Retrieval-Augmented Generation
 
 Examples:
 
@@ -60,6 +62,7 @@ https://www.youtube.com/watch?v=tcqEUSNCn8I&ab_channel=pixegami
 
 ![RAG Frozen](docs/frozen_rag.jpg)
 ![RAG Diagram 1](docs/RAG_diag_1.jpg)
+![RAG Diagram](docs/RAG_diagram.jpg)
 
 Typical RAG setup:
 
@@ -75,10 +78,6 @@ Typical RAG setup:
 Engineering a RAG is a complex task, and a good start is this paper:
 
 ![Engineering](docs/engineering_rag.jpg)
-
-## Project diagram
-
-![RAG Diagram](docs/RAG_diagram.jpg)
 
 # Code explanation
 
