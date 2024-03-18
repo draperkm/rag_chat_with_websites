@@ -26,26 +26,34 @@ https://github.com/PavloFesenko/gif_analyzer?tab=readme-ov-file#Introduction
 
 ## Large Language Model (LLM)
 
-A language model is built to process and understand a text input (prompt), and then generate a text output (response) accordingly. These models are usually trained on an extensive corpus of unlabeled text, allowing them to learn general linguistic patterns and acquire a wide knowledge base. The primary distinction between a regular language model and a large language model lies in the number of parameters used.
+A large language model is built to analyze and comprehend textual inputs, or prompts, and produce corresponding textual outputs, or responses. These models undergo training using a vast collection of unannotated text data, enabling them to discern linguistic structures and accumulate knowledge about words relationships. The fundamental disparity between a regular language model and a large language model lies in the magnitude of parameters employed for their operation.
 
 ![Schema3](docs/schema3.jpg)
 
-## Problems of promting LLMs
+Some notable LLMs are OpenAI's GPT series of models (e.g., GPT-3.5 and GPT-4, used in ChatGPT and Microsoft Copilot), Google's PaLM and Gemini (the latter of which is currently used in the chatbot of the same name), xAI's Grok, Meta's LLaMA family of open-source models, Anthropic's Claude models, and Mistral AI's open source models [11].
 
-Large pre-trained language models have been shown to store factual knowledge in their parameters, and achieve state-of-the-art results when fine-tuned on downstream NLP tasks. However, their ability to access and precisely manipulate knowledge is still limited, and hence on knowledge-intensive tasks, their performance lags behind task-specific architectures [5].
+## Grounding LLMs to solve general generation problems
 
-Paradigm:
-- Closed book vs open book [4]
-- Grounding means having less hallucinations, and that it's possible to do citacions and attributions by pointing back to the source [4]
+Extensive pre-trained language models have demonstrated the capability to encapsulate factual information within their parameters, attaining unparalleled performance on subsequent NLP tasks when adequately fine-tuned. **Nonetheless, their proficiency in accessing and accurately manipulating this embedded knowledge remains constrained**. Therefore, in tasks that heavily rely on knowledge, their effectiveness falls short of specialized task-specific architectures. [5].
+
+The Retrieval-Augmented Generation (RAG) introduces a nuanced approach to handling and generating information, which can be contrasted using the "closed book" vs. "open book" analogy and explaining the advantages of "grounding".
+
+### Closed book vs open book:
+In the closed book paradigm, a language model generates answers based solely on the knowledge it has internalized during its training phase. It doesn't access external information or databases at the time of inference. This approach relies on the model's ability to store and recall facts, concepts, and relationships from its training data. While this can be highly effective for a wide range of tasks, the limitations are evident in terms of the freshness, specificity, and verifiability of the information provided [4].
+
+Contrarily, the open book approach integrates external knowledge sources during the inference phase, allowing the model to retrieve and use the most current and relevant information for generating responses. The RAG paradigm is a prominent example of the open book approach, combining the strengths of retrieval-based and generative models to produce more accurate, reliable, and transparent outputs [4].
+
+### Grounding:
+
+Grounding in the context of LLMs, particularly within the RAG paradigm, refers to the model's ability to anchor its responses in real-world knowledge that can be traced back to specific sources. [4]
+
+By leveraging external sources for information retrieval, RAG and similar models are less likely to "hallucinate" because their responses are based on existing content. This reliance on external data acts as a check against the model's propensity to generate unsupported statements.
+
+Another significant advantage of grounding is the ability to provide citations and attributions, pointing back to the source of the information. This not only enhances the credibility of the responses but also allows users to verify the information independently. **In knowledge-intensive tasks, where accuracy and reliability are paramount, the ability to cite sources directly is a substantial benefit**.
 
 ![RAG_Architecture](docs/rag_expand.jpg) [7]
 
-#### Why are LLMs more accurate with documents rather than pure hallucination from general context?
-This is important because what is happening is that some documents are indexed and retrieved, so the LLM can sum up them. But why is that more accurate than an hallucination? LLMs are only able to hallucinate or also doing other stuff such as summing up coherently an existing text?
-
-RAG can be particularly useful when the pre-trained language model alone may not have the necessary information to generate accurate or sufficiently detailed responses since standard general language models are not capable of accessing post-training/external information directly [2].
-
-In conclusion RAGs find their true motivation, in delimiting the LLM to act only on a limited set of data, making fine-tuning not strictly necessary, resulting in time saving and cost saving, even if there is a threshold where fine-tuning would be preferable (the bot must be generalistic).
+In conclusion RAGs find their true motivation, in delimiting the LLM to act only on a limited set of data, making fine-tuning not strictly necessary, resulting in time saving and cost saving, even if there is a threshold where fine-tuning would be preferable.
 
 # Retrieval-Augmented Generation (RAG)
 
@@ -138,3 +146,5 @@ https://blog.futuresmart.ai/langchain-memory-with-llms-for-advanced-conversation
 9. [AI Chip Market](https://research.aimultiple.com/ai-chip-makers/) 
 
 10. [Building an Interactive Chatbot with Langchain, ChatGPT, Pinecone, and Streamlit](https://blog.futuresmart.ai/building-an-interactive-chatbot-with-langchain-chatgpt-pinecone-and-streamlit)
+
+11. [Large language model](https://en.wikipedia.org/wiki/Large_language_model)
