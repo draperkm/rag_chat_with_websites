@@ -8,7 +8,7 @@ https://github.com/weaviate/Verba
 
 https://github.com/PavloFesenko/gif_analyzer?tab=readme-ov-file#Introduction
 
-## Table of contents
+# Table of contents
 
 1. [Intro](#problems-of-large-pre-trained-language-models)
 
@@ -38,6 +38,8 @@ Paradigm:
 - Closed book vs open book [4]
 - Grounding means having less hallucinations, and that it's possible to do citacions and attributions by pointing back to the source [4]
 
+![RAG_Architecture](docs/rag_expand.jpg) [7]
+
 #### Why are LLMs more accurate with documents rather than pure hallucination from general context?
 This is important because what is happening is that some documents are indexed and retrieved, so the LLM can sum up them. But why is that more accurate than an hallucination? LLMs are only able to hallucinate or also doing other stuff such as summing up coherently an existing text?
 
@@ -50,8 +52,6 @@ In conclusion RAGs find their true motivation, in delimiting the LLM to act only
 ## RAG in general
 
 A RAG (Retrieval-Augmented Generation) application refers to a class of generative models that enhance their output by incorporating external information. The process involves two main steps: retrieval and generation. First, given a prompt or query, the model retrieves relevant information from a large dataset or knowledge base. This retrieved context is then attached to the original prompt, effectively expanding the model's context window with pertinent information. In the second step, the generative component of the model uses this augmented prompt to generate a response or output [Original ChatGPT].
-
-![RAG_Architecture](docs/rag_expand.jpg) [7]
 
 ## Contextualisation: Frozen RAG
 
