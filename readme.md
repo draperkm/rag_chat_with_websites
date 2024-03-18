@@ -8,6 +8,8 @@ https://github.com/weaviate/Verba
 
 https://github.com/PavloFesenko/gif_analyzer?tab=readme-ov-file#Introduction
 
+## Table of contents
+
 1. [Intro](#problems-of-large-pre-trained-language-models)
 
 2. [What RAG are](#rag-retrieval-augmented-generation)
@@ -22,20 +24,19 @@ https://github.com/PavloFesenko/gif_analyzer?tab=readme-ov-file#Introduction
 
 # Introduction
 
-## Large Language Models Inference
+## Large Language Model (LLM)
 
 A language model is built to process and understand a text input (prompt), and then generate a text output (response) accordingly. These models are usually trained on an extensive corpus of unlabeled text, allowing them to learn general linguistic patterns and acquire a wide knowledge base. The primary distinction between a regular language model and a large language model lies in the number of parameters used.
 
 ![Schema3](docs/schema3.jpg)
 
-## Problems of large pre-trained language models
+## Problems of promting LLMs
 
 Large pre-trained language models have been shown to store factual knowledge in their parameters, and achieve state-of-the-art results when fine-tuned on downstream NLP tasks. However, their ability to access and precisely manipulate knowledge is still limited, and hence on knowledge-intensive tasks, their performance lags behind task-specific architectures [5].
 
-**Problems**:
-- one
-- two
-- three
+Paradigm:
+- Closed book vs open book [4]
+- Grounding means having less hallucinations, and that it's possible to do citacions and attributions by pointing back to the source [4]
 
 #### Why are LLMs more accurate with documents rather than pure hallucination from general context?
 This is important because what is happening is that some documents are indexed and retrieved, so the LLM can sum up them. But why is that more accurate than an hallucination? LLMs are only able to hallucinate or also doing other stuff such as summing up coherently an existing text?
@@ -43,10 +44,6 @@ This is important because what is happening is that some documents are indexed a
 RAG can be particularly useful when the pre-trained language model alone may not have the necessary information to generate accurate or sufficiently detailed responses since standard general language models are not capable of accessing post-training/external information directly [2].
 
 In conclusion RAGs find their true motivation, in delimiting the LLM to act only on a limited set of data, making fine-tuning not strictly necessary, resulting in time saving and cost saving, even if there is a threshold where fine-tuning would be preferable (the bot must be generalistic).
-
-Paradigm:
-- Closed book vs open book [4]
-- Grounding means having less hallucinations, and that it's possible to do citacions and attributions by pointing back to the source [4]
 
 # Retrieval-Augmented Generation (RAG)
 
