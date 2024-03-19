@@ -65,9 +65,7 @@ A Retrieval-Augmented Generation (RAG) application is a type of generative model
 
 - **Generating a response after enhancing the promt**: The retrieved documents or snippets are then provided to a large language model, which uses them as additional context for generating a more detailed, factual, and relevant response [2].
 
-![RAG Frozen](docs/frozen_rag_3.jpg)
 ![RAG Diagram 1](docs/RAG_diag_1.jpg)
-![RAG Diagram](docs/RAG_diagram.jpg)
 
 ## Engineering RAG
 
@@ -80,6 +78,8 @@ Engineering a RAG is a complex task, and a good start is this paper:
 https://blog.futuresmart.ai/building-an-interactive-chatbot-with-langchain-chatgpt-pinecone-and-streamlit
 
 https://www.youtube.com/watch?v=nAKhxQ3hcMA&ab_channel=PradipNichite
+
+![RAG Diagram](docs/RAG_diagram.jpg)
 
 ## Create Graphical User Interface
 
