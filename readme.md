@@ -59,9 +59,7 @@ In conclusion RAGs find their true motivation, in delimiting the LLM to act only
 
 A Retrieval-Augmented Generation (RAG) application is a type of generative model that enhances its outputs by utilizing external documents. The process starts with a retrieval task, searching for information semantically relevant to the user query within a specially created knowledge database. This database, known as a **vector store**, contains **embeddings (vectors)** that represent the documentation from which the model aims to extract information to include in a final enhanced prompt for the language model. The relevant context extracted in this search is then combined with the original prompt, extending the model's context window with necessary information. This preparatory step effectively increases the reliability of the model's responses by expanding the original prompt with pertinent data that the model will use to ground the response, and it is what characterizes a RAG application.
 
-![RAG Frozen](docs/frozen_rag_3.jpg)
-
-Typical RAG setup:
+A typical RAG setup:
 
 - **Create a Vector Store for Retrieval**: Given a user query or prompt, the system searches through a knowledge source (a vector store with text embeddings) to find relevant documents or text snippets. The retrieval component typically employs some form of similarity or relevance scoring to determine which portions of the knowledge source are most pertinent to the input query [2].
 
@@ -69,6 +67,7 @@ Typical RAG setup:
 
 - **Generation**: The retrieved documents or snippets are then provided to a large language model, which uses them as additional context for generating a more detailed, factual, and relevant response [2].
 
+![RAG Frozen](docs/frozen_rag_3.jpg)
 ![RAG Diagram 1](docs/RAG_diag_1.jpg)
 ![RAG Diagram](docs/RAG_diagram.jpg)
 
