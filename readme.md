@@ -59,13 +59,19 @@ In conclusion RAGs find their true motivation, in delimiting the LLM to act only
 
 A Retrieval-Augmented Generation (RAG) is a method to improve domain-specific responses of large language models [13]. The process starts with a retrieval task, searching for information semantically relevant to the user query within a specially created knowledge database. This database, known as a **vector store**, contains **embeddings (vectors)** that represent the documentation from which the model aims to extract information to include in a final enhanced prompt for the language model. The relevant context extracted in this search is then combined with the original prompt, extending the model's context window with necessary information. This preparatory step effectively increases the reliability of the model's responses by expanding the original prompt with pertinent data that the model will use to ground the response, and it is what characterizes a RAG application. A typical RAG setup consists of:
 
-### Splitting the documentation and generating a vector database: 
+### Splitting the documentation 
 
 Given a user query or prompt, the system searches through a knowledge source (a vector store with text embeddings) to find relevant documents or text snippets. The retrieval component typically employs some form of similarity or relevance scoring to determine which portions of the knowledge source are most pertinent to the input query [2].
 
 ![Splitter](docs/text_splitter.jpg)
 
-### Enhancing the promt with the retrieved documents:
+### Loading the documents in a vector database: 
+
+A vector database stores data as high-dimensional vectors, mathematical entities representing data attributes or features. These vectors, varying in dimensionality from tens to thousands, encapsulate the complexity and detail of the data, which could include text, images, audio, or video. They are created through transformations or embedding functions applied to raw data, employing techniques from machine learning, word embeddings, or feature extraction algorithms. The primary benefit of a vector database is its capability for rapid and precise similarity searches and data retrieval. Unlike traditional query methods that rely on exact matches or predefined criteria, a vector database enables searches for data that are most similar or relevant based on their semantic or contextual significance, utilizing vector distance or similarity measures [14].
+
+![Langchain](docs/langchain.jpg)
+
+### Enhancing the prompt after retrieving the relevant documents:
 
 After enhancing the prompt with retrieved documents or snippets, these are given to a large language model. The model incorporates this additional context to generate responses that are more detailed and relevant, drawing on the factual content of the provided documents. This process allows the language model to produce answers that not only adhere more closely to the specifics of the query but also maintain a higher level of accuracy by leveraging the external information. [2].
 
@@ -147,3 +153,5 @@ https://blog.futuresmart.ai/langchain-memory-with-llms-for-advanced-conversation
 12. [What is RAG? RAG + Langchain Python Project: Easy AI/Chat For Your Docs](https://www.youtube.com/watch?v=tcqEUSNCn8I&ab_channel=pixegami)
 
 13. [Vector database](https://en.wikipedia.org/wiki/Vector_database)
+
+14. [What is a vector database?](https://learn.microsoft.com/en-us/semantic-kernel/memories/vector-db)
