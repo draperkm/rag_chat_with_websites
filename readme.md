@@ -119,30 +119,30 @@ https://blog.futuresmart.ai/langchain-memory-with-llms-for-advanced-conversation
 
 # References
 
-1. [A](https://www.youtube.com/watch?v=bupx08ZgSFg&ab_channel=AlejandroAO-Software%26Ai){:target="_blank"}
+1. [A](https://www.youtube.com/watch?v=bupx08ZgSFg&ab_channel=AlejandroAO-Software%26Ai)
 
-2. [B](https://www.anaconda.com/blog/how-to-build-a-retrieval-augmented-generation-chatbot){:target="_blank"}
+2. [B](https://www.anaconda.com/blog/how-to-build-a-retrieval-augmented-generation-chatbot)
 
-3. [General structure of this post](https://github.com/umbertogriffo/rag-chatbot?tab=readme-ov-file){:target="_blank"}
+3. [General structure of this post](https://github.com/umbertogriffo/rag-chatbot?tab=readme-ov-file)
 
-4. [Stanford CS25: V3 I Retrieval Augmented Language Models](https://www.youtube.com/watch?v=mE7IDf2SmJg&t=16s&ab_channel=StanfordOnline){:target="_blank"}
+4. [Stanford CS25: V3 I Retrieval Augmented Language Models](https://www.youtube.com/watch?v=mE7IDf2SmJg&t=16s&ab_channel=StanfordOnline)
 
-5. [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://doi.org/10.48550/arXiv.2005.11401){:target="_blank"}
+5. [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://doi.org/10.48550/arXiv.2005.11401)
 
-6. [Open Source LLMs: Viable for Production or a Low-Quality Toy?](https://www.anyscale.com/blog/open-source-llms-viable-for-production-or-a-low-quality-toy){:target="_blank"}
+6. [Open Source LLMs: Viable for Production or a Low-Quality Toy?](https://www.anyscale.com/blog/open-source-llms-viable-for-production-or-a-low-quality-toy)
 
-7. [A High-level Overview of Large Language Models](https://www.borealisai.com/research-blogs/a-high-level-overview-of-large-language-models/){:target="_blank"}
+7. [A High-level Overview of Large Language Models](https://www.borealisai.com/research-blogs/a-high-level-overview-of-large-language-models/)
 
-8. [Contemporary Large Language Models LLMs](https://www.kaggle.com/code/abireltaief/contemporary-large-language-models-llms){:target="_blank"}
+8. [Contemporary Large Language Models LLMs](https://www.kaggle.com/code/abireltaief/contemporary-large-language-models-llms)
 
-9. [AI Chip Market](https://research.aimultiple.com/ai-chip-makers/){:target="_blank"}
+9. [AI Chip Market](https://research.aimultiple.com/ai-chip-makers/)
 
-10. [Building an Interactive Chatbot with Langchain, ChatGPT, Pinecone, and Streamlit](https://blog.futuresmart.ai/building-an-interactive-chatbot-with-langchain-chatgpt-pinecone-and-streamlit){:target="_blank"}
+10. [Building an Interactive Chatbot with Langchain, ChatGPT, Pinecone, and Streamlit](https://blog.futuresmart.ai/building-an-interactive-chatbot-with-langchain-chatgpt-pinecone-and-streamlit)
 
-11. [Large language model](https://en.wikipedia.org/wiki/Large_language_model){:target="_blank"}
+11. [Large language model](https://en.wikipedia.org/wiki/Large_language_model)
 
-12. [What is RAG? RAG + Langchain Python Project: Easy AI/Chat For Your Docs](https://www.youtube.com/watch?v=tcqEUSNCn8I&ab_channel=pixegami){:target="_blank"}
+12. [What is RAG? RAG + Langchain Python Project: Easy AI/Chat For Your Docs](https://www.youtube.com/watch?v=tcqEUSNCn8I&ab_channel=pixegami)
 
-13. [Vector database](https://en.wikipedia.org/wiki/Vector_database){:target="_blank"}
+13. [Vector database](https://en.wikipedia.org/wiki/Vector_database)
 
-14. [What is a vector database?](https://learn.microsoft.com/en-us/semantic-kernel/memories/vector-db){:target="_blank"}
+14. [What is a vector database?](https://learn.microsoft.com/en-us/semantic-kernel/memories/vector-db)
