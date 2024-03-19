@@ -59,22 +59,18 @@ In conclusion RAGs find their true motivation, in delimiting the LLM to act only
 
 A Retrieval-Augmented Generation (RAG) application is a type of generative model that enhances its outputs by utilizing external documents. The process starts with a retrieval task, searching for information semantically relevant to the user query within a specially created knowledge database. This database, known as a **vector store**, contains **embeddings (vectors)** that represent the documentation from which the model aims to extract information to include in a final enhanced prompt for the language model. The relevant context extracted in this search is then combined with the original prompt, extending the model's context window with necessary information. This preparatory step effectively increases the reliability of the model's responses by expanding the original prompt with pertinent data that the model will use to ground the response, and it is what characterizes a RAG application.
 
-## Contextualisation: Frozen RAG
-
-https://www.youtube.com/watch?v=tcqEUSNCn8I&ab_channel=pixegami
-
 ![RAG Frozen](docs/frozen_rag.jpg)
-![RAG Diagram 1](docs/RAG_diag_1.jpg)
-![RAG Diagram](docs/RAG_diagram.jpg)
 
 Typical RAG setup:
 
-- **Retrieval**: Given a user query or prompt, the system searches through a knowledge source (a vector store with text embeddings) to find relevant documents or text snippets. The retrieval component typically employs some form of similarity or relevance scoring to determine which portions of the knowledge source are most pertinent to the input query [2].
+- **Create a Vector Store for Retrieval**: Given a user query or prompt, the system searches through a knowledge source (a vector store with text embeddings) to find relevant documents or text snippets. The retrieval component typically employs some form of similarity or relevance scoring to determine which portions of the knowledge source are most pertinent to the input query [2].
 
-![Retriever](docs/retrieval.jpg)
+![Splitter](docs/text_splitter.jpg)
 
 - **Generation**: The retrieved documents or snippets are then provided to a large language model, which uses them as additional context for generating a more detailed, factual, and relevant response [2].
 
+![RAG Diagram 1](docs/RAG_diag_1.jpg)
+![RAG Diagram](docs/RAG_diagram.jpg)
 
 ## Engineering RAG
 
@@ -145,3 +141,5 @@ https://blog.futuresmart.ai/langchain-memory-with-llms-for-advanced-conversation
 10. [Building an Interactive Chatbot with Langchain, ChatGPT, Pinecone, and Streamlit](https://blog.futuresmart.ai/building-an-interactive-chatbot-with-langchain-chatgpt-pinecone-and-streamlit)
 
 11. [Large language model](https://en.wikipedia.org/wiki/Large_language_model)
+
+12. [What is RAG? RAG + Langchain Python Project: Easy AI/Chat For Your Docs](https://www.youtube.com/watch?v=tcqEUSNCn8I&ab_channel=pixegami)
