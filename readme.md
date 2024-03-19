@@ -57,9 +57,7 @@ In conclusion RAGs find their true motivation, in delimiting the LLM to act only
 
 # Retrieval-Augmented Generation (RAG)
 
-## RAG in general
-
-A RAG (Retrieval-Augmented Generation) application refers to a class of generative models that enhance their output by incorporating external information. The process involves two main steps: retrieval and generation. First, given a prompt or query, the model retrieves relevant information from a large dataset or knowledge base. This retrieved context is then attached to the original prompt, effectively expanding the model's context window with pertinent information. In the second step, the generative component of the model uses this augmented prompt to generate a response or output [Original ChatGPT].
+A Retrieval-Augmented Generation (RAG) application is a type of generative model that enhances its outputs by utilizing external documents. The process starts with a retrieval task, searching for information semantically relevant to the user query within a specially created knowledge database. This database, known as a **vector store**, contains **embeddings (vectors)** that represent the documentation from which the model aims to extract information to include in a final enhanced prompt for the language model. The relevant context extracted in this search is then combined with the original prompt, extending the model's context window with necessary information. This preparatory step effectively increases the reliability of the model's responses by expanding the original prompt with pertinent data that the model will use to ground the response, and it is what characterizes a RAG application.
 
 ## Contextualisation: Frozen RAG
 
@@ -134,8 +132,7 @@ https://blog.futuresmart.ai/langchain-memory-with-llms-for-advanced-conversation
 
 4. [Stanford CS25: V3 I Retrieval Augmented Language Models](https://www.youtube.com/watch?v=mE7IDf2SmJg&t=16s&ab_channel=StanfordOnline)
 
-5. [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks
-](https://doi.org/10.48550/arXiv.2005.11401)
+5. [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://doi.org/10.48550/arXiv.2005.11401)
 
 6. [Open Source LLMs: Viable for Production or a Low-Quality Toy?](https://www.anyscale.com/blog/open-source-llms-viable-for-production-or-a-low-quality-toy)
 
