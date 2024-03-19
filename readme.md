@@ -63,7 +63,7 @@ A Retrieval-Augmented Generation (RAG) application is a type of generative model
 
 ![Splitter](docs/text_splitter.jpg)
 
-- **Generating a response after enhancing the promt**: The retrieved documents or snippets are then provided to a large language model, which uses them as additional context for generating a more detailed, factual, and relevant response [2].
+- **Generating a response after enhancing the promt**: After enhancing the prompt with retrieved documents or snippets, these are given to a large language model. The model incorporates this additional context to generate responses that are more detailed and relevant, drawing on the factual content of the provided documents. This process allows the language model to produce answers that not only adhere more closely to the specifics of the query but also maintain a higher level of accuracy by leveraging the external information. [2].
 
 ![RAG Diagram 1](docs/RAG_diag_1.jpg)
 
