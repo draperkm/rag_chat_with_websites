@@ -73,7 +73,7 @@ A vector database stores data as high-dimensional vectors, mathematical entities
 After enhancing the prompt with retrieved documents or snippets, these are given to a large language model. The model incorporates this additional context to generate responses that are more detailed and relevant, drawing on the factual content of the provided documents. This process allows the language model to produce answers that not only adhere more closely to the specifics of the query but also maintain a higher level of accuracy by leveraging the external information. [2].
 
 
-![RAG Diagram](docs/rag_2.jpg)
+![RAG Diagram](docs/rag.jpg)
 
 # Code explanation
 
@@ -82,6 +82,25 @@ https://blog.futuresmart.ai/building-an-interactive-chatbot-with-langchain-chatg
 https://www.youtube.com/watch?v=nAKhxQ3hcMA&ab_channel=PradipNichite
 
 ![RAG Diagram](docs/RAG_diagram.jpg)
+
+## Setting Up the Environment
+
+The following libraries are necessary for setting up our development environment. By ensuring these tools and libraries are installed, we guarantee that our code will execute without issues, allowing our chatbot to operate as planned.
+
+- `streamlit`: This library helps us to create interactive web apps for machine learning and data science projects.
+
+- `streamlit_chat`
+- `langchain`
+- `sentence_transformers`
+- `openai`
+- `unstructured`
+- `unstructured[pdf]`
+- `pinecone-client`
+
+```
+pip install -r requirements.txt
+```
+
 
 ## Create Graphical User Interface
 
