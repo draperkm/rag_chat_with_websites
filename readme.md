@@ -82,25 +82,7 @@ https://www.youtube.com/watch?v=nAKhxQ3hcMA&ab_channel=PradipNichite
 
 ![RAG Diagram](docs/RAG_diagram.jpg)
 
-## Setting Up the Environment
-
-The following libraries are necessary for setting up our development environment. By ensuring these tools and libraries are installed, we guarantee that our code will execute without issues, allowing our chatbot to operate as planned.
-
-- `streamlit`: This library helps us to create interactive web apps for machine learning and data science projects.
-
-- `streamlit_chat`
-- `langchain`
-- `sentence_transformers`
-- `openai`
-- `unstructured`
-- `unstructured[pdf]`
-- `pinecone-client`
-
-```
-pip install -r requirements.txt
-```
-
-## Create a vector database
+## Create Vestor Store from website content
 
 Initializing a Vector store in Pinecone -utils
 ```Python
@@ -147,27 +129,156 @@ website_chunks = create_webpage_chunks(website_url)
 docsearch = PineconeVectorStore.from_documents(website_chunks, embeddings, index_name='rag')
 ```
 
-## Create Graphical User Interface
+## Get a refined query
 
-## Create Chat Component 
+get conversation string to refine the query
+```Python
+def get_conversation_string():
+    conversation_string = ""
+    for i in range(len(st.session_state['responses'])-1):
+        conversation_string += "Human: "+st.session_state['requests'][i] + "\n"
+        conversation_string += "Bot: "+ st.session_state['responses'][i+1] + "\n"
+    return conversation_string
+```
 
-## Semantic search (or relevant introduction for RAGs)
+```Python
+def query_refiner(conversation, query):
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": "Given the following user query and conversation log, formulate a question that would be the most relevant to provide the user with an answer from a knowledge base."},
+            {"role": "user", "content": f"CONVERSATION LOG: \n{conversation}\n\nQuery: {query}"}
+        ],
+        temperature=0.7,
+        max_tokens=256,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0
+    )
+    #return response['choices'][0]['text']
+    return response.choices[0].message['content']
+```
+
+```Python
+with textcontainer:
+        query = st.chat_input("", key="input")
+        if query:
+            with st.spinner("typing..."):
+                conversation_string = get_conversation_string()
+                refined_query = query_refiner(
+                    conversation_string, 
+                    query
+                    )
+```
+
+## Find matches
+
+```Python
+def find_context_chunks(input):
+    input_em = model.encode(input).tolist()
+    # Correct call with keyword arguments
+    result = index.query(vector=input_em, top_k=3, include_metadata=True)
+    # Check if there are at least 2 matches
+    if len(result['matches']) >= 3:
+        # If there are 2 or more matches, return the text from the first two matches
+        print(f'Result of 2 {result["matches"][0]["metadata"]["text"]} AND {result["matches"][1]["metadata"]["text"]} AND {result["matches"][2]["metadata"]["text"]}')
+        return result['matches'][0]['metadata']['text'] + "\n" + result['matches'][1]['metadata']['text'] + "\n" + result['matches'][2]['metadata']['text']
+    elif len(result['matches']) >= 2:
+        # If there's only one match, return its text
+        print(f'Result of 1 {result["matches"][0]["metadata"]["text"]} AND {result["matches"][1]["metadata"]["text"]}')
+        return result['matches'][0]['metadata']['text'] + "\n" + result['matches'][1]['metadata']['text']
+    elif len(result['matches']) == 1:
+        # If there's only one match, return its text
+        print(f'Result of 1 {result["matches"][0]["metadata"]["text"]}')
+        return result['matches'][0]['metadata']['text']
+    else:
+        # If there are no matches, return a default message or handle as needed
+        print("No matches found.")
+        return "No matches found."
+```
+
+```Python
+if conversation_string:
+                    st.subheader("Conversation String:")
+                    st.code(conversation_string)
+                context = find_context_chunks(refined_query)
+```
+
+#### Semantic search (or relevant introduction for RAGs)
 
 https://blog.dataiku.com/semantic-search-an-overlooked-nlp-superpower
 
-## Chat interface with Streamlit
+## Feed the LLM with the new enhanced query
 
-## Embeddings: OpenAIEmbeddings() or SentenceTransformerEmbeddings()?
+```Python
+    # manage conversation memory in from of buffer
+    if 'buffer_memory' not in st.session_state:
+        st.session_state.buffer_memory = ConversationBufferWindowMemory(
+            k = 3, 
+            return_messages = True)
+        
+    # create promt templates for system and human, and chat(system + human)
+    system_msg_template = SystemMessagePromptTemplate.from_template(
+        template="""Answer the question as truthfully as possible using the provided context, 
+                    and if the answer is not contained within the text below, you can use 
+                    general knowledge, but you must specify that the information are not from
+                    the provided context.
+                    When the answer longer than three sentences, formulate it in such a way
+                    that is summarized in bullet points, giving a short introduction
+                    and a final short summary.
+                    In any case make sure to make good use of the context provided.
+                    Make sure to give complete answers but balance the lenght of them on the 
+                    lenght of the questions'"""
+    )
 
-Embeddings dimension depend from the embedding model, that has to match Pinecone Vector Store dimension
+    human_msg_template = HumanMessagePromptTemplate.from_template(
+        template="{input}"
+        )
 
-![emb2](docs/emb2.jpg)
+    prompt_template = ChatPromptTemplate.from_messages([
+        system_msg_template, 
+        MessagesPlaceholder(variable_name="history"), 
+        human_msg_template
+        ])
 
-![emb1](docs/emb1.jpg)
+    conversation = ConversationChain(
+        memory=st.session_state.buffer_memory, 
+        prompt=prompt_template, 
+        llm=llm, 
+        verbose=True
+        )
+```
 
-## Retrieving answers
+```Python
+response = conversation.predict(
+                    input=f"Context:\n {context} \n\n Query:\n{refined_query}"
+                    )
+```
 
-## Langchain Memory with LLMs for Advanced Conversational AI and Chatbots
+## Loops it through as a chat with Langchain
+
+```Python
+st.session_state.requests.append(refined_query)
+st.session_state.responses.append(response) 
+
+
+with response_container:
+    if st.session_state['responses']:
+        for i in range(len(st.session_state['responses'])):
+            with st.chat_message("user", avatar="🔗"):
+                st.write(
+                    st.session_state['responses'][i],
+                    key = str(i)
+                    )
+            if i < len(st.session_state['requests']):
+                with st.chat_message("ai", avatar="💬"):
+                    st.write(
+                        st.session_state["requests"][i], 
+                        is_user=True,
+                        key = str(i) + "_user"
+                        )
+```
+#### Langchain Memory with LLMs for Advanced Conversational AI and Chatbots
 
 https://blog.futuresmart.ai/langchain-memory-with-llms-for-advanced-conversational-ai-and-chatbots
 
@@ -175,7 +286,23 @@ https://blog.futuresmart.ai/langchain-memory-with-llms-for-advanced-conversation
 
 # Deploy the app
 
-## Environment requirements
+## Setting Up the Environment
+
+The following libraries are necessary for setting up our development environment. By ensuring these tools and libraries are installed, we guarantee that our code will execute without issues, allowing our chatbot to operate as planned.
+
+- `streamlit`: This library helps us to create interactive web apps for machine learning and data science projects.
+
+- `streamlit_chat`
+- `langchain`
+- `sentence_transformers`
+- `openai`
+- `unstructured`
+- `unstructured[pdf]`
+- `pinecone-client`
+
+```
+pip install -r requirements.txt
+```
 
 ## Running the app
 
