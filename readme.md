@@ -74,13 +74,28 @@ After enhancing the prompt with retrieved documents or snippets, these are given
 
 ![RAG Diagram](docs/rag.jpg)
 
-# Code explanation
+# Code walkthrough
 
-https://blog.futuresmart.ai/building-an-interactive-chatbot-with-langchain-chatgpt-pinecone-and-streamlit
+```
+- __rag\_app__
+   - main.py
+   - requirements.txt
+   - utils.py
+```
 
-https://www.youtube.com/watch?v=nAKhxQ3hcMA&ab_channel=PradipNichite
+## Used libraries 
 
-![RAG Diagram](docs/RAG_diagram.jpg)
+The following libraries are necessary for setting up our development environment. By ensuring these tools and libraries are installed, we guarantee that our code will execute without issues, allowing our chatbot to operate as planned.
+
+- `streamlit`: This library helps us to create interactive web apps for machine learning and data science projects.
+
+- `streamlit_chat`
+- `langchain`
+- `sentence_transformers`
+- `openai`
+- `unstructured`
+- `unstructured[pdf]`
+- `pinecone-client`
 
 ## Create Vestor Store from website content
 
@@ -288,24 +303,15 @@ https://blog.futuresmart.ai/langchain-memory-with-llms-for-advanced-conversation
 
 ## Setting Up the Environment
 
-The following libraries are necessary for setting up our development environment. By ensuring these tools and libraries are installed, we guarantee that our code will execute without issues, allowing our chatbot to operate as planned.
-
-- `streamlit`: This library helps us to create interactive web apps for machine learning and data science projects.
-
-- `streamlit_chat`
-- `langchain`
-- `sentence_transformers`
-- `openai`
-- `unstructured`
-- `unstructured[pdf]`
-- `pinecone-client`
-
 ```
 pip install -r requirements.txt
 ```
 
 ## Running the app
 
+```
+python -m streamlit run main.py
+```
 # References
 
 1. [A](https://www.youtube.com/watch?v=bupx08ZgSFg&ab_channel=AlejandroAO-Software%26Ai)
