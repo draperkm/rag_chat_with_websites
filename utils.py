@@ -44,7 +44,7 @@ else:
     
 index = pc.Index('rag2')
 
-def create_vectorstore_from_url(url):
+def create_webpage_chunks(url):
     # get the text in document form
     loader = WebBaseLoader(url)
     document = loader.load()
@@ -57,7 +57,7 @@ def create_vectorstore_from_url(url):
     
     return document_chunks
 
-def find_match(input):
+def find_context_chunks(input):
     input_em = model.encode(input).tolist()
     # Correct call with keyword arguments
     result = index.query(vector=input_em, top_k=3, include_metadata=True)

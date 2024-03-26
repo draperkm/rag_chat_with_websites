@@ -41,7 +41,7 @@ else:
     # create a session state for both response and request variables
     if 'website' not in st.session_state:
         st.session_state['website'] = ['yes']
-        website_chunks = create_vectorstore_from_url(website_url)
+        website_chunks = create_webpage_chunks(website_url)
         #pc = Pinecone(api_key= os.environ.get('PINECONE_API_KEY'))
         #index = pc.Index('rag2')
         embeddings = SentenceTransformerEmbeddings(model_name="all-MiniLM-L12-v2")
@@ -116,7 +116,7 @@ else:
                 if conversation_string:
                     st.subheader("Conversation String:")
                     st.code(conversation_string)
-                context = find_match(refined_query)
+                context = find_context_chunks(refined_query)
             
                 #print(context)  
                 response = conversation.predict(

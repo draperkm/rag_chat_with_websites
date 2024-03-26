@@ -72,7 +72,6 @@ A vector database stores data as high-dimensional vectors, mathematical entities
 
 After enhancing the prompt with retrieved documents or snippets, these are given to a large language model. The model incorporates this additional context to generate responses that are more detailed and relevant, drawing on the factual content of the provided documents. This process allows the language model to produce answers that not only adhere more closely to the specifics of the query but also maintain a higher level of accuracy by leveraging the external information. [2].
 
-
 ![RAG Diagram](docs/rag.jpg)
 
 # Code explanation
@@ -101,12 +100,56 @@ The following libraries are necessary for setting up our development environment
 pip install -r requirements.txt
 ```
 
+## Create a vector database
+
+Initializing a Vector store in Pinecone -utils
+```Python
+from pinecone import Pinecone, ServerlessSpec
+
+pc = Pinecone(api_key= os.environ.get('PINECONE_API_KEY'))
+
+if index_name not in pc.list_indexes().names():
+    pc.create_index(
+        name=index_name,
+        dimension=384,
+        metric="cosine",
+        spec=ServerlessSpec(
+            cloud="aws",
+            region="us-west-2"
+        )
+        )
+```
+
+Create function to create webpage chunks - utils
+```Python
+def create_webpage_chunks(url):
+    # get the text in document form
+    loader = WebBaseLoader(url)
+    document = loader.load()
+    
+    # split the document into chunks
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+    document_chunks = text_splitter.split_documents(document)
+    
+    return document_chunks
+```
+
+Create the vector store from the chunks -main
+```Python
+from langchain.vectorstores import Pinecone as PineconeVectorStore
+from sentence_transformers import SentenceTransformer
+
+embeddings = SentenceTransformerEmbeddings(model_name="all-MiniLM-L12-v2")
+
+website_chunks = create_webpage_chunks(website_url)
+
+# Create the Vector Store from chuncks
+docsearch = PineconeVectorStore.from_documents(website_chunks, embeddings, index_name='rag')
+```
 
 ## Create Graphical User Interface
 
 ## Create Chat Component 
-
-## Document indexing
 
 ## Semantic search (or relevant introduction for RAGs)
 
