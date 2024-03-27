@@ -268,17 +268,26 @@ with response_container:
                         )
 ```
 
-# 🚀 Results (the app)
+# 🚀 Results
 
 # ✨ Deploy the app
 
-## Setting Up the Environment
+1. Create the repository for the app. Your repository should contain two files:
+
+```
+your-repository/
+├── main.py
+├── utils.py
+└── requirements.txt
+```
+
+2. Set Up the environment by installing `requirements.txt`:
 
 ```
 pip install -r requirements.txt
 ```
 
-## Running the app
+3. Run the app by launching this command:
 
 ```
 python -m streamlit run main.py
