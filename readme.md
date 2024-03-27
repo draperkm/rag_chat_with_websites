@@ -273,7 +273,6 @@ with response_container:
 # ✨ Deploy the app
 
 1. Create the repository for the app. Your repository should contain two files:
-
 ```
 your-repository/
 ├── main.py
@@ -282,13 +281,11 @@ your-repository/
 ```
 
 2. Set Up the environment by installing `requirements.txt`:
-
 ```
 pip install -r requirements.txt
 ```
 
 3. Run the app by launching this command:
-
 ```
 python -m streamlit run main.py
 ```
@@ -331,3 +328,5 @@ python -m streamlit run main.py
 18. [Conversational Memory with Langchain](https://medium.com/@michael.j.hamilton/conversational-memory-with-langchain-82c25e23ec60)
 
 19. [Breaking down LangChain : ChatOpenAI and ConversationChain](https://medium.com/@RSK2327/breaking-down-langchain-chatopenai-and-conversationchain-03565f421f78)
+
+20. [Build an LLM app using LangChain](https://docs.streamlit.io/knowledge-base/tutorials/llm-quickstart)
