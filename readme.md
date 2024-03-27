@@ -4,11 +4,11 @@ In this tutorial, you will build a Streamlit LLM app that can generate text from
 
 ![Img1](docs/image1.jpg)
 
-# Table of contents
+# 📄 Table of contents
 
-1. [Intro](#problems-of-large-pre-trained-language-models)
+1. [ 🎯 Introduction](#🎯-Introduction)
 
-2. [What RAG are](#rag-retrieval-augmented-generation)
+2. [💡 Retrieval-Augmented Generation (RAG)](#rag-retrieval-augmented-generation)
 
 3. [Code explanation](#code-explanation)
 
