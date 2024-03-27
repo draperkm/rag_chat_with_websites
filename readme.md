@@ -6,9 +6,9 @@ In this tutorial, you will build a Streamlit LLM app that can generate text from
 
 # 📄 Table of contents
 
-1. [ 🎯 Introduction](#🎯-Introduction)
+1. [Introduction](#🎯-Introduction)
 
-2. [💡 Retrieval-Augmented Generation (RAG)](#rag-retrieval-augmented-generation)
+2. [Retrieval-Augmented Generation (RAG)](#rag-retrieval-augmented-generation)
 
 3. [Code explanation](#code-explanation)
 
