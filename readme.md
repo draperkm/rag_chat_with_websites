@@ -1,12 +1,8 @@
 # Building a RAG application from scratch
 
-Chat with any website using LangChain, Pinecone and Streamlit via Retrieval-Augmented Generation
+In this tutorial, you will build a Streamlit LLM app that can generate text from a user-provided prompt. This Python app will use the LangChain framework and Streamlit. Optionally, you can deploy your app to Streamlit Community Cloud when you're done.
 
-Examples:
-
-https://github.com/weaviate/Verba
-
-https://github.com/PavloFesenko/gif_analyzer?tab=readme-ov-file#Introduction
+![Img1](docs/image1.jpg)
 
 # Table of contents
 
@@ -212,12 +208,11 @@ context = find_context_chunks(refined_query)
 
 ## Feed the LLM with the final enhanced promt (Langchain)
 
+ConversationBufferMemory usage is straightforward. It simply keeps the entire conversation in the buffer memory up to the allowed max limit 
+
 ```Python
-# manage conversation memory in from of buffer
 if 'buffer_memory' not in st.session_state:
-    st.session_state.buffer_memory = ConversationBufferWindowMemory(
-        k = 3, 
-        return_messages = True)
+    st.session_state.buffer_memory = ConversationBufferWindowMemory(k = 3, return_messages = True)
 ```
 
 ```Python
