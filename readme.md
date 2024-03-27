@@ -210,7 +210,7 @@ In `main.py` we get the context by calling the `find_context_chunks()` function.
 context = find_context_chunks(refined_query)
 ```
 
-## Feed the LLM with the final enhanced promt
+## Feed the LLM with the final enhanced promt (Langchain)
 
 ```Python
 # manage conversation memory in from of buffer
@@ -253,15 +253,14 @@ conversation = ConversationChain(
 response = conversation.predict(
                     input=f"Context:\n {context} \n\n Query:\n{refined_query}"
                     )
-```
 
-## Loops it through as a chat with Langchain
-
-```Python
 st.session_state.requests.append(refined_query)
 st.session_state.responses.append(response) 
+```
 
+## Loops it through as a chat
 
+```Python
 with response_container:
     if st.session_state['responses']:
         for i in range(len(st.session_state['responses'])):
@@ -330,3 +329,5 @@ python -m streamlit run main.py
 15. [Purpose of the “system” role in OpenAI chat completions API](https://community.openai.com/t/purpose-of-the-system-role-in-openai-chat-completions-api/497739)
 
 16. [Semantic Search](https://blog.dataiku.com/semantic-search-an-overlooked-nlp-superpower)
+
+17. [Langchain Memory with LLMs for Advanced Conversational AI and Chatbots](https://blog.futuresmart.ai/langchain-memory-with-llms-for-advanced-conversational-ai-and-chatbots)
