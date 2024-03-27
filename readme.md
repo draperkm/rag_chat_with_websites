@@ -159,34 +159,34 @@ def get_conversation_string():
     return conversation_string
 ```
 
+The `query_refiner()` function makes use of `openai.ChatCompletion.create()` to create an enhanced query, that will increase the precision of the response to the final promt. Different roles are used to because newer models are trained to adhere to system messages. A system message is never part of the conversation and never accessible to the end-user. Therefore, it can be used to control the scope of the model’s interactions with the end-user. The user message can be used to ground the model into a specific behavior, but it cannot control it entirely. During the conversation, the user can instruct the model to contradict the statement given by the role user, as they have the same role, and the model cannot deny user asking to override their previous instructions. However, if there’s a system message, the model will give precedence to it over the user message [15].
+
+The model is provided with a system message and with the whole history of the conversation to formulate a question relevant to th econtext. 
+
 ```Python
 def query_refiner(conversation, query):
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
-            {"role": "system", "content": "Given the following user query and conversation log, formulate a question that would be the most relevant to provide the user with an answer from a knowledge base."},
-            {"role": "user", "content": f"CONVERSATION LOG: \n{conversation}\n\nQuery: {query}"}
+            {"role": "system", "content": "Given the following user query and conversation log, formulate a question that would be more relevant to the context."},
+            {"role": "user", "content": f"Conversation log: \n{conversation}\n\nQuery: {query}"}
         ],
         temperature=0.7,
         max_tokens=256,
         top_p=1,
         frequency_penalty=0,
-        presence_penalty=0
-    )
-    #return response['choices'][0]['text']
+        presence_penalty=0)
     return response.choices[0].message['content']
 ```
+
+In the `main.py` the following call is made to create the final refined query:
 
 ```Python
 with textcontainer:
         query = st.chat_input("", key="input")
         if query:
-            with st.spinner("typing..."):
-                conversation_string = get_conversation_string()
-                refined_query = query_refiner(
-                    conversation_string, 
-                    query
-                    )
+            conversation_string = get_conversation_string()
+            refined_query = query_refiner(conversation_string, query)
 ```
 
 ## Find matches
@@ -344,3 +344,5 @@ python -m streamlit run main.py
 13. [Vector database](https://en.wikipedia.org/wiki/Vector_database)
 
 14. [What is a vector database?](https://learn.microsoft.com/en-us/semantic-kernel/memories/vector-db)
+
+15. [Purpose of the “system” role in OpenAI chat completions API](https://community.openai.com/t/purpose-of-the-system-role-in-openai-chat-completions-api/497739)
