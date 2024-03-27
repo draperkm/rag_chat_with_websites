@@ -120,11 +120,10 @@ if index_name not in pc.list_indexes().names():
 Create function to create webpage chunks - utils
 ```Python
 def create_webpage_chunks(url):
-    # get the text in document form
+
     loader = WebBaseLoader(url)
     document = loader.load()
-    
-    # split the document into chunks
+
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
     document_chunks = text_splitter.split_documents(document)
     
@@ -191,35 +190,24 @@ with textcontainer:
 
 ## Find matches
 
+Once we have a query, we can embed it, send it to the vector store and perform a semantic search between the query vector and the document chunks to retrieve the most relevant ones to include in the final promt. 
+
 ```Python
 def find_context_chunks(input):
     input_em = model.encode(input).tolist()
-    # Correct call with keyword arguments
     result = index.query(vector=input_em, top_k=3, include_metadata=True)
-    # Check if there are at least 2 matches
-    if len(result['matches']) >= 3:
-        # If there are 2 or more matches, return the text from the first two matches
-        print(f'Result of 2 {result["matches"][0]["metadata"]["text"]} AND {result["matches"][1]["metadata"]["text"]} AND {result["matches"][2]["metadata"]["text"]}')
-        return result['matches'][0]['metadata']['text'] + "\n" + result['matches'][1]['metadata']['text'] + "\n" + result['matches'][2]['metadata']['text']
-    elif len(result['matches']) >= 2:
-        # If there's only one match, return its text
-        print(f'Result of 1 {result["matches"][0]["metadata"]["text"]} AND {result["matches"][1]["metadata"]["text"]}')
-        return result['matches'][0]['metadata']['text'] + "\n" + result['matches'][1]['metadata']['text']
-    elif len(result['matches']) == 1:
-        # If there's only one match, return its text
-        print(f'Result of 1 {result["matches"][0]["metadata"]["text"]}')
-        return result['matches'][0]['metadata']['text']
-    else:
-        # If there are no matches, return a default message or handle as needed
-        print("No matches found.")
-        return "No matches found."
+    output = []
+
+    for i in range(0, len(result['matches'])):
+        output.append(result['matches'][i]['metadata']['text'])
+
+    return output
 ```
 
+In `main.py` we get the context by calling the `find_context_chunks()` function.
+
 ```Python
-if conversation_string:
-                    st.subheader("Conversation String:")
-                    st.code(conversation_string)
-                context = find_context_chunks(refined_query)
+context = find_context_chunks(refined_query)
 ```
 
 #### Semantic search (or relevant introduction for RAGs)
