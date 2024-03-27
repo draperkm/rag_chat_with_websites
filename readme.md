@@ -195,12 +195,13 @@ context = find_context_chunks(refined_query)
 
 ## Feed the LLM with the final enhanced promt (Langchain)
 
-ConversationBufferMemory usage is straightforward. It simply keeps the entire conversation in the buffer memory up to the allowed max limit 
+ConversationBufferMemory usage is straightforward. It simply keeps the entire conversation in the buffer memory up to the allowed max limit [18]
 
 ```Python
 if 'buffer_memory' not in st.session_state:
     st.session_state.buffer_memory = ConversationBufferWindowMemory(k = 3, return_messages = True)
 ```
+LangChain provides different types of MessagePromptTemplate. The most commonly used are AIMessagePromptTemplate, SystemMessagePromptTemplate and HumanMessagePromptTemplate, which create an AI message, system message and human message respectively.
 
 ```Python
 system_msg_template = SystemMessagePromptTemplate.from_template(
@@ -214,6 +215,8 @@ human_msg_template = HumanMessagePromptTemplate.from_template(
     )
 ```
 
+LangChain also provides MessagesPlaceholder, which gives you full control of what messages to be rendered during formatting. This can be useful when you are uncertain of what role you should be using for your message prompt templates or when you wish to insert a list of messages during formatting.
+
 ```Python
 prompt_template = ChatPromptTemplate.from_messages([
     system_msg_template, 
@@ -221,6 +224,8 @@ prompt_template = ChatPromptTemplate.from_messages([
     human_msg_template
     ])
 ```
+
+Every call to a LLM is independent of previous calls. Therefore, by default, an LLM doesnt remember/have access to previous responses it has provided. A common fix for this is to include the conversation so far as part of the prompt sent to the LLM. In LangChain, this is achieved through a combination fo ConversationChain and ConversationBufferMemory classes. A typical implementation looks like this:
 
 ```Python
 conversation = ConversationChain(
@@ -230,6 +235,7 @@ conversation = ConversationChain(
     verbose=True
     )
 ```
+Here, we use the ConversationChain class to implement a LangChain chain that allows the addition of a memory to this workflow. The ConversationChain and ConversationBufferMemory ensure that every interaction between the user and the agent is logged and this entire history is incorporated into the prompt through the ‘history’ key of the input dict. [19]
 
 ```Python
 response = conversation.predict(
@@ -241,6 +247,8 @@ st.session_state.responses.append(response)
 ```
 
 ## Loops it through as a chat
+
+At every iteration the chat is printed in the response container with the following instructions:
 
 ```Python
 with response_container:
@@ -259,9 +267,6 @@ with response_container:
                         key = str(i) + "_user"
                         )
 ```
-#### Langchain Memory with LLMs for Advanced Conversational AI and Chatbots
-
-https://blog.futuresmart.ai/langchain-memory-with-llms-for-advanced-conversational-ai-and-chatbots
 
 # 🚀 Results (the app)
 
@@ -313,3 +318,7 @@ python -m streamlit run main.py
 16. [Semantic Search](https://blog.dataiku.com/semantic-search-an-overlooked-nlp-superpower)
 
 17. [Langchain Memory with LLMs for Advanced Conversational AI and Chatbots](https://blog.futuresmart.ai/langchain-memory-with-llms-for-advanced-conversational-ai-and-chatbots)
+
+18. [Conversational Memory with Langchain](https://medium.com/@michael.j.hamilton/conversational-memory-with-langchain-82c25e23ec60)
+
+19. [Breaking down LangChain : ChatOpenAI and ConversationChain](https://medium.com/@RSK2327/breaking-down-langchain-chatopenai-and-conversationchain-03565f421f78)
