@@ -210,49 +210,43 @@ In `main.py` we get the context by calling the `find_context_chunks()` function.
 context = find_context_chunks(refined_query)
 ```
 
-#### Semantic search (or relevant introduction for RAGs)
-
-https://blog.dataiku.com/semantic-search-an-overlooked-nlp-superpower
-
-## Feed the LLM with the new enhanced query
+## Feed the LLM with the final enhanced promt
 
 ```Python
-    # manage conversation memory in from of buffer
-    if 'buffer_memory' not in st.session_state:
-        st.session_state.buffer_memory = ConversationBufferWindowMemory(
-            k = 3, 
-            return_messages = True)
-        
-    # create promt templates for system and human, and chat(system + human)
-    system_msg_template = SystemMessagePromptTemplate.from_template(
-        template="""Answer the question as truthfully as possible using the provided context, 
-                    and if the answer is not contained within the text below, you can use 
-                    general knowledge, but you must specify that the information are not from
-                    the provided context.
-                    When the answer longer than three sentences, formulate it in such a way
-                    that is summarized in bullet points, giving a short introduction
-                    and a final short summary.
-                    In any case make sure to make good use of the context provided.
-                    Make sure to give complete answers but balance the lenght of them on the 
-                    lenght of the questions'"""
+# manage conversation memory in from of buffer
+if 'buffer_memory' not in st.session_state:
+    st.session_state.buffer_memory = ConversationBufferWindowMemory(
+        k = 3, 
+        return_messages = True)
+```
+
+```Python
+system_msg_template = SystemMessagePromptTemplate.from_template(
+    template="""Answer the question as truthfully as possible using the provided context, and if the answer is not contained within the text below, you can use general knowledge, but you must specify that the information are not fromthe provided context.'"""
+)
+```
+
+```Python
+human_msg_template = HumanMessagePromptTemplate.from_template(
+    template="{input}"
     )
+```
 
-    human_msg_template = HumanMessagePromptTemplate.from_template(
-        template="{input}"
-        )
+```Python
+prompt_template = ChatPromptTemplate.from_messages([
+    system_msg_template, 
+    MessagesPlaceholder(variable_name="history"), 
+    human_msg_template
+    ])
+```
 
-    prompt_template = ChatPromptTemplate.from_messages([
-        system_msg_template, 
-        MessagesPlaceholder(variable_name="history"), 
-        human_msg_template
-        ])
-
-    conversation = ConversationChain(
-        memory=st.session_state.buffer_memory, 
-        prompt=prompt_template, 
-        llm=llm, 
-        verbose=True
-        )
+```Python
+conversation = ConversationChain(
+    memory=st.session_state.buffer_memory, 
+    prompt=prompt_template, 
+    llm=llm, 
+    verbose=True
+    )
 ```
 
 ```Python
@@ -334,3 +328,5 @@ python -m streamlit run main.py
 14. [What is a vector database?](https://learn.microsoft.com/en-us/semantic-kernel/memories/vector-db)
 
 15. [Purpose of the “system” role in OpenAI chat completions API](https://community.openai.com/t/purpose-of-the-system-role-in-openai-chat-completions-api/497739)
+
+16. [Semantic Search](https://blog.dataiku.com/semantic-search-an-overlooked-nlp-superpower)
