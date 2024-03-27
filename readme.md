@@ -22,7 +22,7 @@ https://github.com/PavloFesenko/gif_analyzer?tab=readme-ov-file#Introduction
 
 6. [References](#references)
 
-# Introduction
+# 🎯 Introduction
 
 ## Large Language Model (LLM)
 
@@ -52,7 +52,7 @@ Another significant advantage of grounding is the ability to provide citations a
 
 In conclusion RAGs find their true motivation, in delimiting the LLM to act only on a limited set of data, making fine-tuning not strictly necessary, resulting in time saving and cost saving, even if there is a threshold where fine-tuning would be preferable.
 
-# Retrieval-Augmented Generation (RAG)
+# 💡 Retrieval-Augmented Generation (RAG)
 
 A Retrieval-Augmented Generation (RAG) is a method to improve domain-specific responses of large language models [13]. The process starts with a retrieval task, searching for information semantically relevant to the user query within a specially created knowledge database. This database, known as a **vector store**, contains **embeddings (vectors)** that represent the documentation from which the model aims to extract information to include in a final enhanced prompt for the language model. The relevant context extracted in this search is then combined with the original prompt, extending the model's context window with necessary information. This preparatory step effectively increases the reliability of the model's responses by expanding the original prompt with pertinent data that the model will use to ground the response, and it is what characterizes a RAG application. A typical RAG setup consists of:
 
@@ -74,7 +74,7 @@ After enhancing the prompt with retrieved documents or snippets, these are given
 
 ![RAG Diagram](docs/rag.jpg)
 
-# Code walkthrough
+# 🛠️ Code walkthrough
 
 ```
 - __rag\_app__
@@ -147,11 +147,14 @@ docsearch = PineconeVectorStore.from_documents(website_chunks, embeddings, index
 ## Get a refined query
 
 get conversation string to refine the query
+
+The function `get_conversation_string()` loops through `st.session_state['requests']` and `st.session_state['responses']` at `[i]` and `[i+1]` simply because responses is initialised by a welcome message, therefore the correct indexing matching between requests and responses is `i` and `i+1`.
+
 ```Python
 def get_conversation_string():
     conversation_string = ""
     for i in range(len(st.session_state['responses'])-1):
-        conversation_string += "Human: "+st.session_state['requests'][i] + "\n"
+        conversation_string += "Human: "+ st.session_state['requests'][i] + "\n"
         conversation_string += "Bot: "+ st.session_state['responses'][i+1] + "\n"
     return conversation_string
 ```
@@ -297,9 +300,9 @@ with response_container:
 
 https://blog.futuresmart.ai/langchain-memory-with-llms-for-advanced-conversational-ai-and-chatbots
 
-# Results (the app)
+# 🚀 Results (the app)
 
-# Deploy the app
+# ✨ Deploy the app
 
 ## Setting Up the Environment
 
