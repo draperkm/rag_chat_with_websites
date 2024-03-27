@@ -280,9 +280,9 @@ python -m streamlit run main.py
 ```
 # References
 
-1. [A](https://www.youtube.com/watch?v=bupx08ZgSFg&ab_channel=AlejandroAO-Software%26Ai)
+1. [Tutorial | Chat with any Website using Python and Langchain](https://www.youtube.com/watch?v=bupx08ZgSFg&ab_channel=AlejandroAO-Software%26Ai)
 
-2. [B](https://www.anaconda.com/blog/how-to-build-a-retrieval-augmented-generation-chatbot)
+2. [How to Build a Retrieval-Augmented Generation Chatbo](https://www.anaconda.com/blog/how-to-build-a-retrieval-augmented-generation-chatbot)
 
 3. [General structure of this post](https://github.com/umbertogriffo/rag-chatbot?tab=readme-ov-file)
 
