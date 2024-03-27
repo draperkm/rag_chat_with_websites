@@ -273,22 +273,22 @@ with response_container:
 # ✨ Deploy the app
 
 1. Create the repository for the app. Your repository should contain two files:
-```
-your-repository/
-├── main.py
-├── utils.py
-└── requirements.txt
-```
+    ```
+    your-repository/
+    ├── main.py
+    ├── utils.py
+    └── requirements.txt
+    ```
 
 2. Set Up the environment by installing `requirements.txt`:
-```
-pip install -r requirements.txt
-```
+    ```
+    pip install -r requirements.txt
+    ```
 
 3. Run the app by launching this command:
-```
-python -m streamlit run main.py
-```
+    ```
+    python -m streamlit run main.py
+    ```
 # References
 
 1. [Tutorial | Chat with any Website using Python and Langchain](https://www.youtube.com/watch?v=bupx08ZgSFg&ab_channel=AlejandroAO-Software%26Ai)
