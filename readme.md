@@ -66,12 +66,13 @@ After enhancing the prompt with retrieved documents or snippets, these are given
 
 # 🛠️ Code walkthrough
 
-## Used libraries 
+## Requirements
 
-The following libraries are necessary for setting up our development environment. By ensuring these tools and libraries are installed, we guarantee that our code will execute without issues, allowing our chatbot to operate as planned. It is important to notice that the Python 3.10.8 version is used.
+The following libraries are necessary for setting up our development environment. By ensuring these tools and libraries are installed, we guarantee that our code will execute without issues, allowing our chatbot to operate as planned. It is important to notice that the `Python 3.10.8` version is used.
 
-- `streamlit`: This library helps us to create interactive web apps for machine learning and data science projects.
 
+```Python
+- `streamlit`
 - `streamlit_chat`
 - `langchain`
 - `sentence_transformers`
@@ -79,10 +80,18 @@ The following libraries are necessary for setting up our development environment
 - `unstructured`
 - `unstructured[pdf]`
 - `pinecone-client`
+```
 
-## Create Vestor Store from website content
+Streamlit: This library helps us to create interactive web apps for machine learning and data science projects.
 
-Initializing a Vector store in Pinecone -utils
+## Pinecone: Creating a Vestor Store
+
+Creating a vector store involves storing and managing high-dimensional vectors, which are numerical representations of data points, such as text embeddings or image features. Vector stores enable efficient similarity search and retrieval of relevant data points based on their vector representations. `Pinecone` is a managed vector database service that provides scalable and efficient vector storage and similarity search capabilities, and its library is used to create and interact with a vector store.
+
+The Pinecone class is the main class and represents a connection to the Pinecone vector database service, providing methods for initializing the connection, creating and managing indexes, and performing vector operations.
+
+By calling `.create_index` the Pinecone class create an index which is a data structure used in the Pinecone vector database to efficiently store, manage, and search high-dimensional vectors. It is designed to enable fast similarity searches and nearest neighbor queries on large-scale vector datasets. The hyperparameters of the type of index are specified in the function.
+
 ```Python
 from pinecone import Pinecone, ServerlessSpec
 
@@ -97,20 +106,26 @@ if index_name not in pc.list_indexes().names():
     region = "us-west-2"))
 ```
 
-Create function to create webpage chunks - utils
+The content of a webpage is loaded and then splitted into chunks. Those will be uploaded in the in the vector store as embedded vectors. 
+
+The `RecursiveCharacterTextSplitter`, from the `Langchain` library, provides a flexible and customizable way to split long texts into manageable chunks for further processing or analysis. The `chunk_size` and `chunk_overlap` parameters work together to control the granularity and context preservation of the text splitting process. The optimal values depend on the specific requirements of your application, the nature of the text being split, and the downstream tasks that will process the chunks. After experimenting, in this case a chunk_size of 1000 with an overlap of 200 have been selected.
+
 ```Python
 def create_webpage_chunks(url):
 
     loader = WebBaseLoader(url)
     document = loader.load()
 
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     document_chunks = text_splitter.split_documents(document)
     
     return document_chunks
 ```
 
-Create the vector store from the chunks -main
+The embedding of the vector store are created by calling `.from_documents` function, using an embedding model, the chunks to store and the name of the vector store in Pinecone.
+
+The embedding model is `all-MiniLM-L12-v2`, from the `sentence_transformers` library, which is a sentence and short paragraph encoder. Given an input text, it outputs a vector which captures the semantic information. It maps sentences & paragraphs to a 384 dimensional dense vector space and can be used for tasks like clustering or semantic search.
+
 ```Python
 from langchain.vectorstores import Pinecone as PineconeVectorStore
 from sentence_transformers import SentenceTransformer
@@ -119,37 +134,12 @@ embeddings = SentenceTransformerEmbeddings(model_name="all-MiniLM-L12-v2")
 
 website_chunks = create_webpage_chunks(website_url)
 
-# Create the Vector Store from chuncks
 docsearch = PineconeVectorStore.from_documents(website_chunks, embeddings, index_name='rag')
 ```
 
-## Find matches
-
-Once we have a query, we can embed it, send it to the vector store and perform a semantic search between the query vector and the document chunks to retrieve the most relevant ones to include in the final promt. 
-
-```Python
-def find_context_chunks(input):
-    input_em = model.encode(input).tolist()
-    result = index.query(vector=input_em, top_k=3, include_metadata=True)
-    output = []
-
-    for i in range(0, len(result['matches'])):
-        output.append(result['matches'][i]['metadata']['text'])
-
-    return output
-```
-
-In `main.py` we get the context by calling the `find_context_chunks()` function.
-
-```Python
-context = find_context_chunks(refined_query)
-```
-
-## Redefine the query, improve performance
+## Get the query and redefine it to boost performance
 
 The `query_refiner()` function makes use of `openai.ChatCompletion.create()` to create an enhanced query, that will increase the precision of the response to the final promt. Different roles are used to because newer models are trained to adhere to system messages. A system message is never part of the conversation and never accessible to the end-user. Therefore, it can be used to control the scope of the model’s interactions with the end-user. The user message can be used to ground the model into a specific behavior, but it cannot control it entirely. During the conversation, the user can instruct the model to contradict the statement given by the role user, as they have the same role, and the model cannot deny user asking to override their previous instructions. However, if there’s a system message, the model will give precedence to it over the user message [15].
-
-The model is provided with a system message and with the whole history of the conversation to formulate a question relevant to th econtext. 
 
 ```Python
 def query_refiner(conversation, query):
@@ -166,8 +156,32 @@ def query_refiner(conversation, query):
         presence_penalty=0)
     return response.choices[0].message['content']
 ```
+## Matching vectors with the query
 
-## Chat memory and enhancing the promt (Langchain)
+Once we have a query, we can embed it, send it to the vector store and perform a semantic search between the query vector and the document chunks to retrieve the most relevant ones to include in the final promt. 
+
+```Python
+def find_context_chunks(input):
+
+    input_em = model.encode(input).tolist()
+
+    result = index.query(
+        vector = input_em, 
+        top_k = 3,
+        include_metadata=True)
+
+    output = []
+    
+    return output
+```
+
+In `main.py` we get the context by calling the `find_context_chunks()` function.
+
+```Python
+context = find_context_chunks(refined_query)
+```
+
+## Keeping the chat memory and creating the new promt (Langchain)
 
 
 ConversationBufferMemory usage is straightforward. It simply keeps the entire conversation in the buffer memory up to the allowed max limit [18]
