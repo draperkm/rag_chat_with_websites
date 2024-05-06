@@ -18,7 +18,7 @@ from langchain.prompts import (
     MessagesPlaceholder
 )
 
-from langchain.vectorstores import Pinecone as PineconeVectorStore
+from langchain_community.vectorstores import Pinecone as PineconeVectorStore
 # Import the Streamlit chat
 import streamlit as st
 from streamlit_chat import message

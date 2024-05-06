@@ -68,7 +68,7 @@ After enhancing the prompt with retrieved documents or snippets, these are given
 
 ## Used libraries 
 
-The following libraries are necessary for setting up our development environment. By ensuring these tools and libraries are installed, we guarantee that our code will execute without issues, allowing our chatbot to operate as planned.
+The following libraries are necessary for setting up our development environment. By ensuring these tools and libraries are installed, we guarantee that our code will execute without issues, allowing our chatbot to operate as planned. It is important to notice that the Python 3.10.8 version is used.
 
 - `streamlit`: This library helps us to create interactive web apps for machine learning and data science projects.
 
@@ -89,15 +89,12 @@ from pinecone import Pinecone, ServerlessSpec
 pc = Pinecone(api_key= os.environ.get('PINECONE_API_KEY'))
 
 if index_name not in pc.list_indexes().names():
-    pc.create_index(
-        name=index_name,
-        dimension=384,
-        metric="cosine",
-        spec=ServerlessSpec(
-            cloud="aws",
-            region="us-west-2"
-        )
-        )
+    pc.create_index(name = index_name,
+    dimension = 384,
+    metric = "cosine",
+    spec = ServerlessSpec(
+    cloud = "aws",
+    region = "us-west-2"))
 ```
 
 Create function to create webpage chunks - utils
@@ -126,51 +123,6 @@ website_chunks = create_webpage_chunks(website_url)
 docsearch = PineconeVectorStore.from_documents(website_chunks, embeddings, index_name='rag')
 ```
 
-## Get a refined query
-
-get conversation string to refine the query
-
-The function `get_conversation_string()` loops through `st.session_state['requests']` and `st.session_state['responses']` at `[i]` and `[i+1]` simply because responses is initialised by a welcome message, therefore the correct indexing matching between requests and responses is `i` and `i+1`.
-
-```Python
-def get_conversation_string():
-    conversation_string = ""
-    for i in range(len(st.session_state['responses'])-1):
-        conversation_string += "Human: "+ st.session_state['requests'][i] + "\n"
-        conversation_string += "Bot: "+ st.session_state['responses'][i+1] + "\n"
-    return conversation_string
-```
-
-The `query_refiner()` function makes use of `openai.ChatCompletion.create()` to create an enhanced query, that will increase the precision of the response to the final promt. Different roles are used to because newer models are trained to adhere to system messages. A system message is never part of the conversation and never accessible to the end-user. Therefore, it can be used to control the scope of the model’s interactions with the end-user. The user message can be used to ground the model into a specific behavior, but it cannot control it entirely. During the conversation, the user can instruct the model to contradict the statement given by the role user, as they have the same role, and the model cannot deny user asking to override their previous instructions. However, if there’s a system message, the model will give precedence to it over the user message [15].
-
-The model is provided with a system message and with the whole history of the conversation to formulate a question relevant to th econtext. 
-
-```Python
-def query_refiner(conversation, query):
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": "Given the following user query and conversation log, formulate a question that would be more relevant to the context."},
-            {"role": "user", "content": f"Conversation log: \n{conversation}\n\nQuery: {query}"}
-        ],
-        temperature=0.7,
-        max_tokens=256,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0)
-    return response.choices[0].message['content']
-```
-
-In the `main.py` the following call is made to create the final refined query:
-
-```Python
-with textcontainer:
-        query = st.chat_input("", key="input")
-        if query:
-            conversation_string = get_conversation_string()
-            refined_query = query_refiner(conversation_string, query)
-```
-
 ## Find matches
 
 Once we have a query, we can embed it, send it to the vector store and perform a semantic search between the query vector and the document chunks to retrieve the most relevant ones to include in the final promt. 
@@ -193,7 +145,30 @@ In `main.py` we get the context by calling the `find_context_chunks()` function.
 context = find_context_chunks(refined_query)
 ```
 
-## Feed the LLM with the final enhanced promt (Langchain)
+## Redefine the query, improve performance
+
+The `query_refiner()` function makes use of `openai.ChatCompletion.create()` to create an enhanced query, that will increase the precision of the response to the final promt. Different roles are used to because newer models are trained to adhere to system messages. A system message is never part of the conversation and never accessible to the end-user. Therefore, it can be used to control the scope of the model’s interactions with the end-user. The user message can be used to ground the model into a specific behavior, but it cannot control it entirely. During the conversation, the user can instruct the model to contradict the statement given by the role user, as they have the same role, and the model cannot deny user asking to override their previous instructions. However, if there’s a system message, the model will give precedence to it over the user message [15].
+
+The model is provided with a system message and with the whole history of the conversation to formulate a question relevant to th econtext. 
+
+```Python
+def query_refiner(conversation, query):
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": "Given the following user query and conversation log, formulate a question that would be more relevant to the context."},
+            {"role": "user", "content": f"Conversation log: \n{conversation}\n\nQuery: {query}"}
+        ],
+        temperature=0.7,
+        max_tokens=256,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0)
+    return response.choices[0].message['content']
+```
+
+## Chat memory and enhancing the promt (Langchain)
+
 
 ConversationBufferMemory usage is straightforward. It simply keeps the entire conversation in the buffer memory up to the allowed max limit [18]
 
@@ -246,7 +221,28 @@ st.session_state.requests.append(refined_query)
 st.session_state.responses.append(response) 
 ```
 
-## Loops it through as a chat
+## Print the chat (Streamlit)
+
+The function `get_conversation_string()` loops through `st.session_state['requests']` and `st.session_state['responses']` at `[i]` and `[i+1]` simply because responses is initialised by a welcome message, therefore the correct indexing matching between requests and responses is `i` and `i+1`.
+
+```Python
+def get_conversation_string():
+    conversation_string = ""
+    for i in range(len(st.session_state['responses'])-1):
+        conversation_string += "Human: "+ st.session_state['requests'][i] + "\n"
+        conversation_string += "Bot: "+ st.session_state['responses'][i+1] + "\n"
+    return conversation_string
+```
+
+In the `main.py` the following call is made to create the final refined query:
+
+```Python
+with textcontainer:
+        query = st.chat_input("", key="input")
+        if query:
+            conversation_string = get_conversation_string()
+            refined_query = query_refiner(conversation_string, query)
+```
 
 At every iteration the chat is printed in the response container with the following instructions:
 

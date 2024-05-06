@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 load_dotenv() # Load the .env file
 import os
-os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
+#os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
 import streamlit as st
 from sentence_transformers import SentenceTransformer
 from pinecone import Pinecone, ServerlessSpec
