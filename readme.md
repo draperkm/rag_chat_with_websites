@@ -2,8 +2,6 @@
 
 In this tutorial, you will build a Streamlit LLM app that can generate text from a user-provided prompt. This Python app will use the LangChain framework and Streamlit. Optionally, you can deploy your app to Streamlit Community Cloud when you're done.
 
-![Img1](docs/image1.jpg)
-
 # 📄 Table of contents
 
 1. [Introduction](#🎯-Introduction)
@@ -84,7 +82,7 @@ The following libraries are necessary for setting up our development environment
 
 Streamlit: This library helps us to create interactive web apps for machine learning and data science projects.
 
-## Pinecone: Creating a Vestor Store
+## Creating a Vestor Store with Pinecone
 
 Creating a vector store involves storing and managing high-dimensional vectors, which are numerical representations of data points, such as text embeddings or image features. Vector stores enable efficient similarity search and retrieval of relevant data points based on their vector representations. `Pinecone` is a managed vector database service that provides scalable and efficient vector storage and similarity search capabilities, and its library is used to create and interact with a vector store.
 
@@ -196,9 +194,7 @@ LangChain provides different types of MessagePromptTemplate. The most commonly u
 system_msg_template = SystemMessagePromptTemplate.from_template(
     template="""Answer the question as truthfully as possible using the provided context, and if the answer is not contained within the text below, you can use general knowledge, but you must specify that the information are not fromthe provided context.'"""
 )
-```
 
-```Python
 human_msg_template = HumanMessagePromptTemplate.from_template(
     template="{input}"
     )
@@ -279,6 +275,8 @@ with response_container:
 ```
 
 # 🚀 Results
+
+![Img1](docs/image1.jpg)
 
 # ✨ Deploy the app
 
