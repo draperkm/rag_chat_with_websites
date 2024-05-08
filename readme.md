@@ -2,23 +2,7 @@
 
 In this tutorial, you will build a Streamlit LLM app that can generate text from a user-provided prompt. This Python app will use the LangChain framework and Streamlit. Optionally, you can deploy your app to Streamlit Community Cloud when you're done.
 
-# 📄 Table of contents
-
-1. [Introduction](#🎯-Introduction)
-
-2. [Retrieval-Augmented Generation (RAG)](#rag-retrieval-augmented-generation)
-
-3. [Code explanation](#code-explanation)
-
-4. [Results]()
-
-5. [Quickstart](#deploy-the-app)
-
-6. [References](#references)
-
-# 🎯 Introduction
-
-## Large Language Model (LLM)
+# Limits of LLMs
 
 A large language model is built to analyze and comprehend textual inputs, or prompts, and produce corresponding textual outputs, or responses. These models undergo training using a vast collection of unannotated text data, enabling them to discern linguistic structures and accumulate knowledge about words relationships. The fundamental disparity between a regular language model and a large language model lies in the magnitude of parameters employed for their operation.
 
