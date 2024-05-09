@@ -6,9 +6,7 @@ In this tutorial, you will build a Streamlit LLM app that can generate text from
 
 A large language model is built to analyze and comprehend textual inputs, or prompts, and produce corresponding textual outputs, or responses. These models undergo training using a vast collection of unannotated text data, enabling them to discern linguistic structures and accumulate knowledge about words relationships. The fundamental disparity between a regular language model and a large language model lies in the magnitude of parameters employed for their operation.
 
-![Schema3](docs/schema3.jpg)
-
-Some notable LLMs are OpenAI's GPT series of models (e.g., GPT-3.5 and GPT-4, used in ChatGPT and Microsoft Copilot), Google's PaLM and Gemini (the latter of which is currently used in the chatbot of the same name), xAI's Grok, Meta's LLaMA family of open-source models, Anthropic's Claude models, and Mistral AI's open source models [11].
+![Schema3](docs/Schema3_3.jpg)
 
 ## Grounding LLMs to solve generation problems
 
