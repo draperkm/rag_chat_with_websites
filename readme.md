@@ -34,13 +34,11 @@ A Retrieval-Augmented Generation (RAG) is a method to improve domain-specific re
 
 A vector database stores data as high-dimensional vectors, mathematical entities representing data attributes or features. These vectors, varying in dimensionality from tens to thousands, encapsulate the complexity and detail of the data, which could include text, images, audio, or video. They are created through transformations or embedding functions applied to raw data, employing techniques from machine learning, word embeddings, or feature extraction algorithms. The primary benefit of a vector database is its capability for rapid and precise similarity searches and data retrieval. Unlike traditional query methods that rely on exact matches or predefined criteria, a vector database enables searches for data that are most similar or relevant based on their semantic or contextual significance, utilizing vector distance or similarity measures [14].
 
-![Langchain](docs/langchain.jpg)
+![Langchain](docs/rag_1.png)
 
 ### Enhancing the prompt after retrieving the relevant documents:
 
 After enhancing the prompt with retrieved documents or snippets, these are given to a large language model. The model incorporates this additional context to generate responses that are more detailed and relevant, drawing on the factual content of the provided documents. This process allows the language model to produce answers that not only adhere more closely to the specifics of the query but also maintain a higher level of accuracy by leveraging the external information. [2].
-
-![RAG Diagram](docs/rag.jpg)
 
 # 🛠️ Code walkthrough
 
