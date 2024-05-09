@@ -8,11 +8,9 @@ A large language model is built to analyze and comprehend textual inputs, or pro
 
 ![Schema3](docs/Schema3_3.jpg)
 
-## Grounding LLMs to solve generation problems
+## Grounding LLMs to address its limits
 
 Extensive pre-trained language models have demonstrated the capability to encapsulate factual information within their parameters, attaining unparalleled performance on subsequent NLP tasks when adequately fine-tuned. **Nonetheless, their proficiency in accessing and accurately manipulating this embedded knowledge remains constrained**. Therefore, in tasks that heavily rely on knowledge, their effectiveness falls short of specialized task-specific architectures. [5].
-
-![RAG_Architecture](docs/rag_expand.jpg) [7]
 
 The Retrieval-Augmented Generation (RAG) introduces a nuanced approach to handling and generating information, which can be contrasted using the "closed book" vs. "open book" analogy and explaining the advantages of "grounding".
 
@@ -256,7 +254,7 @@ with response_container:
                         )
 ```
 
-# 🚀 Results
+# 🚀 Final app
 
 ![Img1](docs/image1.jpg)
 
