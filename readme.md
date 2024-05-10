@@ -1,6 +1,6 @@
 # Building a RAG application from scratch
 
-In this tutorial, you will build a Streamlit LLM app that can generate text from a user-provided prompt. This Python app will use the LangChain framework and Streamlit. Optionally, you can deploy your app to Streamlit Community Cloud when you're done.
+This guide provides AI leaders and practitioners with a foundational understanding of how Retrieval-Augmented Generation (RAG) systems work, enabling them to create their own RAG chatbots with minimal hallucinations.
 
 ## Limits of LLMs
 
