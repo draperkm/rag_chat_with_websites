@@ -254,10 +254,6 @@ with response_container:
                         )
 ```
 
-# 🚀 Final app
-
-![Img1](docs/image1.jpg)
-
 # ✨ Deploy the app
 
 1. Create the repository for the app. Your repository should contain two files:
