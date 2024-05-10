@@ -28,11 +28,9 @@ In conclusion RAGs find their true motivation, in delimiting the LLM to act only
 
 # 💡 Retrieval-Augmented Generation (RAG)
 
-A Retrieval-Augmented Generation (RAG) is a method to improve domain-specific responses of large language models [13]. The process starts with a retrieval task, searching for information semantically relevant to the user query within a specially created knowledge database. This database, known as a **vector store**, contains **embeddings (vectors)** that represent the documentation from which the model aims to extract information to include in a final enhanced prompt for the language model. The relevant context extracted in this search is then combined with the original prompt, extending the model's context window with necessary information. This preparatory step effectively increases the reliability of the model's responses by expanding the original prompt with pertinent data that the model will use to ground the response, and it is what characterizes a RAG application. A tipical RAG setup is described below.
+A Retrieval-Augmented Generation (RAG) is a method to improve domain-specific responses of large language models [13]. The process starts with a retrieval task, searching for information semantically relevant to the user query within a specially created knowledge database. This database, known as a **vector store**, contains **embeddings (vectors)** that represent the documentation from which the model aims to extract information to include in a final enhanced prompt for the language model. The relevant context extracted in this search is then combined with the original prompt, extending the model's context window with necessary information. This preparatory step effectively increases the reliability of the model's responses by expanding the original prompt with pertinent data that the model will use to ground the response, and it is what characterizes a RAG application. A tipical RAG setup is described below [21].
 
 ![Langchain](docs/rag_fin.png)
-
-from: https://towardsdatascience.com/retrieval-augmented-generation-rag-from-theory-to-langchain-implementation-4e9bd5f6a4f2
 
 ### Loading the documents in a vector database: 
 
@@ -275,7 +273,7 @@ with response_container:
     ```
 # References
 
-1. [Tutorial | Chat with any Website using Python and Langchain](https://www.youtube.com/watch?v=bupx08ZgSFg&ab_channel=AlejandroAO-Software%26Ai)
+1. [Tutorial | Chat with any Website using Python and Langchain, ](https://www.youtube.com/watch?v=bupx08ZgSFg&ab_channel=AlejandroAO-Software%26Ai)
 
 2. [How to Build a Retrieval-Augmented Generation Chatbo](https://www.anaconda.com/blog/how-to-build-a-retrieval-augmented-generation-chatbot)
 
@@ -314,3 +312,5 @@ with response_container:
 19. [Breaking down LangChain : ChatOpenAI and ConversationChain](https://medium.com/@RSK2327/breaking-down-langchain-chatopenai-and-conversationchain-03565f421f78)
 
 20. [Build an LLM app using LangChain](https://docs.streamlit.io/knowledge-base/tutorials/llm-quickstart)
+
+21. [Retrieval-Augmented Generation (RAG): From Theory to LangChain Implementation](https://towardsdatascience.com/retrieval-augmented-generation-rag-from-theory-to-langchain-implementation-4e9bd5f6a4f2)
