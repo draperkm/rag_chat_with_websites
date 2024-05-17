@@ -1,4 +1,4 @@
-# Building a RAG application from scratch
+# RAG (Retrieval-augmented generation) ChatBot
 
 This guide provides AI leaders and practitioners with a foundational understanding of how Retrieval-Augmented Generation (RAG) systems work, enabling them to create their own RAG chatbots with minimal hallucinations.
 
