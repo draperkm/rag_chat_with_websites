@@ -1,8 +1,25 @@
-streamlit
-streamlit_chat
-langchain
-sentence_transformers
-openai
-unstructured
-unstructured[pdf]
-pinecone-client
+# Web Application Framework
+streamlit>=1.32.0
+streamlit-chat>=0.1.1
+altair>=4.0.0,<6.0.0
+
+# LangChain and AI Components
+langchain>=0.1.0
+langchain-core>=0.1.0
+langchain-community>=0.0.20
+langchain-text-splitters>=0.0.1
+langchain-pinecone>=0.1.0
+langchain-openai>=0.0.5
+openai>=1.0.0,<2.0.0
+
+# Embeddings and Vector Store
+sentence-transformers>=2.3.1
+langchain-huggingface>=0.0.1
+pinecone-client>=3.0.0
+watchdog>=3.0.0
+
+# Document Processing
+unstructured>=0.12.0
+
+# Environment Variables
+python-dotenv>=1.0.0
