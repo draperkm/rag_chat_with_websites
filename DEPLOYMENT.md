@@ -146,22 +146,25 @@ Per session (5 questions about 1 webpage):
 
 ## 🛠️ Troubleshooting
 
-### Build Error: "Readme file does not exist"
+### Build Error: "Readme file does not exist" or "No pyproject.toml found"
 
-This happens when Streamlit Cloud tries to build `pyproject.toml` as a package.
+These errors happen when Streamlit Cloud's UV tries to use `pyproject.toml`.
 
 **Solution**:
 ```bash
-# Rename pyproject.toml
+# 1. Rename or delete pyproject.toml
 mv pyproject.toml pyproject.toml.backup
 
-# Commit and push
+# 2. Create empty packages.txt to force pip usage
+touch packages.txt
+
+# 3. Commit and push
 git add .
-git commit -m "Fix: Rename pyproject.toml for Streamlit deployment"
+git commit -m "Fix: Force pip installation on Streamlit Cloud"
 git push
 ```
 
-Streamlit will now use `requirements.txt` instead.
+The `packages.txt` file tells Streamlit to use pip instead of UV.
 
 ### "Secrets not found" Error
 
