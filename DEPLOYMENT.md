@@ -21,7 +21,15 @@ The code automatically detects which scenario it's running in.
 - [ ] Pinecone API key
 - [ ] Code pushed to GitHub
 
-### Step 1: Push to GitHub
+### Step 1: Prepare for Deployment
+
+**Important**: Streamlit Cloud uses `requirements.txt`, not `pyproject.toml`. If you have a `pyproject.toml` file, rename it:
+
+```bash
+mv pyproject.toml pyproject.toml.backup
+```
+
+Then push to GitHub:
 
 ```bash
 cd /path/to/chat_with_wiki_2
@@ -137,6 +145,23 @@ Per session (5 questions about 1 webpage):
 ---
 
 ## 🛠️ Troubleshooting
+
+### Build Error: "Readme file does not exist"
+
+This happens when Streamlit Cloud tries to build `pyproject.toml` as a package.
+
+**Solution**:
+```bash
+# Rename pyproject.toml
+mv pyproject.toml pyproject.toml.backup
+
+# Commit and push
+git add .
+git commit -m "Fix: Rename pyproject.toml for Streamlit deployment"
+git push
+```
+
+Streamlit will now use `requirements.txt` instead.
 
 ### "Secrets not found" Error
 
