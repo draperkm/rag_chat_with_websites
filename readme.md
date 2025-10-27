@@ -510,9 +510,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Jean Charles**
 
-- LinkedIn: [Your LinkedIn Profile](https://www.linkedin.com/in/yourprofile)
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Portfolio: [Your Website](https://yourwebsite.com)
+- LinkedIn: [jean_charles_k](https://www.linkedin.com/in/jean-charles-k/)
+- GitHub: [@draperkm](https://github.com/draperkm)
+- Portfolio: [Website](https://draperkm.github.io/blog/)
 
 ## 🙏 Acknowledgments
 
