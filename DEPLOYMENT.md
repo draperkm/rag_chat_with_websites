@@ -23,11 +23,16 @@ The code automatically detects which scenario it's running in.
 
 ### Step 1: Prepare for Deployment
 
-**Important**: Streamlit Cloud uses `requirements.txt`, not `pyproject.toml`. If you have a `pyproject.toml` file, rename it:
+**Important**: Streamlit Cloud should use `requirements.txt`, not UV. Remove UV-related files:
 
 ```bash
-mv pyproject.toml pyproject.toml.backup
+# Remove UV files (if they exist)
+rm -f uv.lock
+rm -f pyproject.toml
+# or rename: mv pyproject.toml pyproject.toml.backup
 ```
+
+These files are already in `.gitignore` to prevent future issues.
 
 Then push to GitHub:
 
@@ -146,25 +151,23 @@ Per session (5 questions about 1 webpage):
 
 ## 🛠️ Troubleshooting
 
-### Build Error: "Readme file does not exist" or "No pyproject.toml found"
+### Build Error: "No pyproject.toml found" or UV-related errors
 
-These errors happen when Streamlit Cloud's UV tries to use `pyproject.toml`.
+This happens when Streamlit Cloud detects `uv.lock` or `pyproject.toml` and tries to use UV.
 
 **Solution**:
 ```bash
-# 1. Rename or delete pyproject.toml
-mv pyproject.toml pyproject.toml.backup
+# Remove UV files
+rm -f uv.lock
+rm -f pyproject.toml
 
-# 2. Create empty packages.txt to force pip usage
-touch packages.txt
-
-# 3. Commit and push
-git add .
-git commit -m "Fix: Force pip installation on Streamlit Cloud"
+# Commit and push
+git add -A
+git commit -m "Fix: Remove UV files for Streamlit deployment"
 git push
 ```
 
-The `packages.txt` file tells Streamlit to use pip instead of UV.
+Streamlit will now use pip with `requirements.txt` (which has all dependencies).
 
 ### "Secrets not found" Error
 
