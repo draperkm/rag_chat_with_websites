@@ -29,7 +29,9 @@ venv/
 env/
 ENV/
 .venv/  # UV virtual environment
-uv.lock  # UV lock file (auto-generated, optional to commit)
+uv.lock  # UV lock file (causes issues on Streamlit Cloud)
+pyproject.toml  # Causes issues on Streamlit Cloud (conflicts with requirements.txt)
+*.backup  # Backup files
 obsolete_files/
 
 # Jupyter Notebook
