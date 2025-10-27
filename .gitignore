@@ -1,4 +1,59 @@
+# Environment variables and sensitive data
 .env
-utils3.py
+.env.local
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+venv/
+env/
+ENV/
+.venv/  # UV virtual environment
+uv.lock  # UV lock file (auto-generated, optional to commit)
+obsolete_files/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test files
 test.py
+utils3.py
 Langchain_Pinecone_Indexing.ipynb
+
+# Streamlit
+.streamlit/secrets.toml
+.streamlit/config.toml
+# Keep .streamlit/secrets.toml.example for reference
+!.streamlit/secrets.toml.example

@@ -1,316 +1,528 @@
-# RAG (Retrieval-augmented generation) ChatBot
+# 🌐 RAG Web Page Chatbot
 
-This guide provides AI leaders and practitioners with a foundational understanding of how Retrieval-Augmented Generation (RAG) systems work, enabling them to create their own RAG chatbots with minimal hallucinations.
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.32+-FF4B4B.svg)](https://streamlit.io/)
+[![LangChain](https://img.shields.io/badge/LangChain-0.1+-green.svg)](https://www.langchain.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Limits of LLMs
+A production-ready **Retrieval-Augmented Generation (RAG)** chatbot that enables intelligent conversations about any webpage's content. Built with LangChain, OpenAI GPT-4, Pinecone vector database, and Streamlit.
 
-A large language model is built to analyze and comprehend textual inputs, or prompts, and produce corresponding textual outputs, or responses. These models undergo training using a vast collection of unannotated text data, enabling them to discern linguistic structures and accumulate knowledge about words relationships. The fundamental disparity between a regular language model and a large language model lies in the magnitude of parameters employed for their operation.
+![RAG Architecture](docs/rag_fin.png)
 
-![Schema3](docs/Schema3_3.jpg)
+## 📚 Documentation
 
-## Grounding LLMs to address its limits
+- **[Getting Started](GETTING_STARTED.md)** - Quick setup guide (5 minutes)
+- **[API Key Setup](API_KEY_SETUP.md)** - Configure keys for deployment and local use
+- **[Deployment Guide](DEPLOYMENT.md)** - Deploy to Streamlit Cloud
 
-Extensive pre-trained language models have demonstrated the capability to encapsulate factual information within their parameters, attaining unparalleled performance on subsequent NLP tasks when adequately fine-tuned. **Nonetheless, their proficiency in accessing and accurately manipulating this embedded knowledge remains constrained**. Therefore, in tasks that heavily rely on knowledge, their effectiveness falls short of specialized task-specific architectures. [5].
+## 🎯 Overview
 
-The Retrieval-Augmented Generation (RAG) introduces a nuanced approach to handling and generating information, which can be contrasted using the "closed book" vs. "open book" analogy and explaining the advantages of "grounding".
+This application demonstrates a complete RAG pipeline that:
+- 📥 **Loads up to 5 webpages** per session
+- 🔢 **Embeds** text chunks into 384-dimensional vectors
+- 🗄️ **Stores** embeddings in Pinecone with session isolation
+- 🔍 **Retrieves** semantically relevant context for queries
+- 🤖 **Generates** accurate, context-aware responses using GPT-4
+- 🔄 **Maintains conversation history** for follow-up questions
 
-### Closed book vs open book:
-In the **closed book** paradigm, a language model generates answers based solely on the knowledge it has internalized during its training phase. It doesn't access external information or databases at the time of inference. This approach relies on the model's ability to store and recall facts, concepts, and relationships from its training data. While this can be highly effective for a wide range of tasks, the limitations are evident in terms of the freshness, specificity, and verifiability of the information provided [4].
-Contrarily, the **open book** approach integrates external knowledge sources during the inference phase, allowing the model to retrieve and use the most current and relevant information for generating responses. The RAG paradigm is a prominent example of the open book approach, combining the strengths of retrieval-based and generative models to produce more accurate, reliable, and transparent outputs [4].
+Unlike traditional chatbots, this RAG implementation **grounds** responses in actual webpage content, dramatically reducing hallucinations and improving factual accuracy.
 
-### Grounding:
+## ✨ Key Features
 
-Grounding in the context of LLMs, particularly within the RAG paradigm, refers to the model's ability to anchor its responses in real-world knowledge that can be traced back to specific sources. [4]
-By leveraging external sources for information retrieval, RAG and similar models are less likely to "hallucinate" because their responses are based on existing content. This reliance on external data acts as a check against the model's propensity to generate unsupported statements.
-Another significant advantage of grounding is the ability to provide citations and attributions, pointing back to the source of the information. This not only enhances the credibility of the responses but also allows users to verify the information independently. **In knowledge-intensive tasks, where accuracy and reliability are paramount, the ability to cite sources directly is a substantial benefit**.
+- **Multi-Page Support**: Load up to 5 webpages per session
+- **Session Isolation**: Each session uses unique Pinecone namespace
+- **Semantic Search**: Finds relevant content based on meaning, not keywords
+- **Context-Aware Chat**: Maintains conversation history for follow-ups
+- **Query Refinement**: Automatically reformulates queries for better retrieval
+- **Scalable Storage**: Pinecone serverless infrastructure
+- **Clean UI**: Responsive Streamlit interface with restart functionality
+- **Production Ready**: Error handling, logging, and dual API key support
 
-In conclusion RAGs find their true motivation, in delimiting the LLM to act only on a limited set of data, making fine-tuning not strictly necessary, resulting in time saving and cost saving, even if there is a threshold where fine-tuning would be preferable.
+## 🏗️ Architecture
 
-# 💡 Retrieval-Augmented Generation (RAG)
+### RAG Pipeline Flow
 
-A Retrieval-Augmented Generation (RAG) is a method to improve domain-specific responses of large language models [13]. The process starts with a retrieval task, searching for information semantically relevant to the user query within a specially created knowledge database. This database, known as a **vector store**, contains **embeddings (vectors)** that represent the documentation from which the model aims to extract information to include in a final enhanced prompt for the language model. The relevant context extracted in this search is then combined with the original prompt, extending the model's context window with necessary information. This preparatory step effectively increases the reliability of the model's responses by expanding the original prompt with pertinent data that the model will use to ground the response, and it is what characterizes a RAG application. A tipical RAG setup is described below [21].
-
-![Langchain](docs/rag_fin.png)
-
-### Loading the documents in a vector database: 
-
-A vector database stores data as high-dimensional vectors, mathematical entities representing data attributes or features. These vectors, varying in dimensionality from tens to thousands, encapsulate the complexity and detail of the data, which could include text, images, audio, or video. They are created through transformations or embedding functions applied to raw data, employing techniques from machine learning, word embeddings, or feature extraction algorithms. The primary benefit of a vector database is its capability for rapid and precise similarity searches and data retrieval. Unlike traditional query methods that rely on exact matches or predefined criteria, a vector database enables searches for data that are most similar or relevant based on their semantic or contextual significance, utilizing vector distance or similarity measures [14].
-
-### Enhancing the prompt after retrieving the relevant documents:
-
-After enhancing the prompt with retrieved documents or snippets, these are given to a large language model. The model incorporates this additional context to generate responses that are more detailed and relevant, drawing on the factual content of the provided documents. This process allows the language model to produce answers that not only adhere more closely to the specifics of the query but also maintain a higher level of accuracy by leveraging the external information. [2].
-
-# 🛠️ Code walkthrough
-
-## Requirements
-
-The following libraries are necessary for setting up our development environment. By ensuring these tools and libraries are installed, we guarantee that our code will execute without issues, allowing our chatbot to operate as planned. It is important to notice that the `Python 3.10.8` version is used.
-
-
-```Python
-- `streamlit`
-- `streamlit_chat`
-- `langchain`
-- `sentence_transformers`
-- `openai`
-- `unstructured`
-- `unstructured[pdf]`
-- `pinecone-client`
+```
+User Query
+    ↓
+Query Refinement (GPT-4)
+    ↓
+Embedding Generation (SentenceTransformer)
+    ↓
+Semantic Search (Pinecone)
+    ↓
+Context Retrieval (Top-K Chunks)
+    ↓
+Response Generation (GPT-4 + Context)
+    ↓
+User Response
 ```
 
-Streamlit: This library helps us to create interactive web apps for machine learning and data science projects.
+### Technical Stack
 
-## Creating a Vestor Store with Pinecone
+| Component | Technology | Purpose |
+|-----------|-----------|---------|
+| **Frontend** | Streamlit | Interactive web interface |
+| **LLM** | OpenAI GPT-4 | Query refinement & response generation |
+| **Embeddings** | all-MiniLM-L12-v2 | Text-to-vector conversion (384 dimensions) |
+| **Vector DB** | Pinecone | Scalable similarity search |
+| **Framework** | LangChain | LLM orchestration & memory management |
+| **Chunking** | RecursiveCharacterTextSplitter | Intelligent document segmentation |
 
-Creating a vector store involves storing and managing high-dimensional vectors, which are numerical representations of data points, such as text embeddings or image features. Vector stores enable efficient similarity search and retrieval of relevant data points based on their vector representations. `Pinecone` is a managed vector database service that provides scalable and efficient vector storage and similarity search capabilities, and its library is used to create and interact with a vector store.
+## 📋 Prerequisites
 
-The Pinecone class is the main class and represents a connection to the Pinecone vector database service, providing methods for initializing the connection, creating and managing indexes, and performing vector operations.
+- Python 3.10 or higher
+- OpenAI API key ([Get one here](https://platform.openai.com/api-keys))
+- Pinecone API key ([Sign up here](https://www.pinecone.io/))
+- Basic understanding of Python and virtual environments
 
-By calling `.create_index` the Pinecone class create an index which is a data structure used in the Pinecone vector database to efficiently store, manage, and search high-dimensional vectors. It is designed to enable fast similarity searches and nearest neighbor queries on large-scale vector datasets. The hyperparameters of the type of index are specified in the function.
+## 🚀 Quick Start
 
-```Python
-from pinecone import Pinecone, ServerlessSpec
+### 1. Clone the Repository
 
-pc = Pinecone(api_key= os.environ.get('PINECONE_API_KEY'))
-
-if index_name not in pc.list_indexes().names():
-    pc.create_index(name = index_name,
-    dimension = 384,
-    metric = "cosine",
-    spec = ServerlessSpec(
-    cloud = "aws",
-    region = "us-west-2"))
+```bash
+git clone https://github.com/yourusername/rag-webpage-chatbot.git
+cd rag-webpage-chatbot
 ```
 
-The content of a webpage is loaded and then splitted into chunks. Those will be uploaded in the in the vector store as embedded vectors. 
+### 2. Set Up Environment
 
-The `RecursiveCharacterTextSplitter`, from the `Langchain` library, provides a flexible and customizable way to split long texts into manageable chunks for further processing or analysis. The `chunk_size` and `chunk_overlap` parameters work together to control the granularity and context preservation of the text splitting process. The optimal values depend on the specific requirements of your application, the nature of the text being split, and the downstream tasks that will process the chunks. After experimenting, in this case a chunk_size of 1000 with an overlap of 200 have been selected.
+**Option A: Using UV (Recommended - 10x faster!)**
+```bash
+# Install UV
+curl -LsSf https://astral.sh/uv/install.sh | sh
 
-```Python
-def create_webpage_chunks(url):
-
-    loader = WebBaseLoader(url)
-    document = loader.load()
-
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-    document_chunks = text_splitter.split_documents(document)
-    
-    return document_chunks
+# Create venv and install dependencies
+uv venv
+source .venv/bin/activate  # macOS/Linux
+uv pip install -r requirements.txt
 ```
 
-The embedding of the vector store are created by calling `.from_documents` function, using an embedding model, the chunks to store and the name of the vector store in Pinecone.
+**Option B: Using pip (Traditional)**
+```bash
+# Create virtual environment
+python -m venv venv
 
-The embedding model is `all-MiniLM-L12-v2`, from the `sentence_transformers` library, which is a sentence and short paragraph encoder. Given an input text, it outputs a vector which captures the semantic information. It maps sentences & paragraphs to a 384 dimensional dense vector space and can be used for tasks like clustering or semantic search.
+# Activate virtual environment
+source venv/bin/activate  # macOS/Linux
+# or: venv\Scripts\activate  # Windows
 
-```Python
-from langchain.vectorstores import Pinecone as PineconeVectorStore
-from sentence_transformers import SentenceTransformer
+# Install dependencies
+pip install -r requirements.txt
+```
 
+**For detailed setup instructions**, see **[GETTING_STARTED.md](GETTING_STARTED.md)**
+
+### 3. Configure Environment Variables
+
+Create a `.env` file in the project root:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` and add your API keys:
+
+```env
+OPENAI_API_KEY=sk-your-openai-api-key-here
+PINECONE_API_KEY=your-pinecone-api-key-here
+```
+
+### 4. Run the Application
+
+```bash
+streamlit run src/main.py
+```
+
+The app will open in your browser at `http://localhost:8501`
+
+## 💻 Usage
+
+1. **Add Webpages**: Enter URLs in the sidebar (up to 5 pages per session)
+2. **Wait for Processing**: Each page takes ~10-30 seconds to process
+3. **Start Chatting**: Ask questions about the loaded content
+4. **Add More Pages**: Load additional related pages for better context
+5. **Restart Session**: Click "🔄 Restart Session" to clear and start fresh
+6. **Explore Details**: Expand "Query Processing Details" to see query refinement
+
+### Example Queries
+
+```
+"What are the main topics covered on this page?"
+"Summarize the key points in bullet format"
+"What does it say about [specific topic]?"
+"Compare [concept A] and [concept B] from this page"
+```
+
+## 📁 Project Structure
+
+```
+rag-webpage-chatbot/
+├── src/
+│   ├── main.py              # Streamlit application entry point
+│   └── utils.py             # Utility functions (chunking, search, refinement)
+├── docs/                    # Documentation images and resources
+├── .env.example             # Environment variable template
+├── .gitignore              # Git ignore rules
+├── requirements.txt         # Python dependencies
+├── README.md               # This file
+└── LICENSE                 # MIT License
+```
+
+## 🔧 Configuration
+
+### Customizing Chunk Size
+
+In [src/utils.py](src/utils.py#L101-L104), adjust chunking parameters:
+
+```python
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000,      # Maximum characters per chunk
+    chunk_overlap=200     # Overlap between chunks (preserves context)
+)
+```
+
+**Guidelines:**
+- Smaller chunks (500-800): Better for precise retrieval
+- Larger chunks (1000-1500): Better for contextual understanding
+- Overlap (100-200): Prevents information loss at chunk boundaries
+
+### Adjusting Retrieval Count
+
+In [src/utils.py](src/utils.py#L133), modify `top_k`:
+
+```python
+result = index.query(
+    vector=input_em,
+    top_k=3,  # Number of chunks to retrieve
+    include_metadata=True
+)
+```
+
+### Changing LLM Model
+
+In [src/main.py](src/main.py#L153-L156), update the model:
+
+```python
+llm = ChatOpenAI(
+    model_name='gpt-4',      # Options: gpt-4, gpt-4-turbo, gpt-3.5-turbo
+    temperature=0.7          # 0.0 = deterministic, 1.0 = creative
+)
+```
+
+## 🧠 How It Works: Deep Dive
+
+### 1. Document Loading and Chunking
+
+When you enter a URL, the application:
+
+```python
+# Load webpage content
+loader = WebBaseLoader(url)
+document = loader.load()
+
+# Split into chunks
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+document_chunks = text_splitter.split_documents(document)
+```
+
+**Why chunk?** Large language models have context limits. Chunking allows:
+- Precise retrieval of relevant sections
+- Better semantic matching
+- Efficient storage and querying
+
+### 2. Embedding Generation
+
+Each chunk is converted to a 384-dimensional vector:
+
+```python
 embeddings = SentenceTransformerEmbeddings(model_name="all-MiniLM-L12-v2")
-
-website_chunks = create_webpage_chunks(website_url)
-
-docsearch = PineconeVectorStore.from_documents(website_chunks, embeddings, index_name='rag')
 ```
 
-## Get the query and redefine it to boost performance
+These vectors capture **semantic meaning**, enabling similarity search based on concepts, not just keywords.
 
-The `query_refiner()` function makes use of `openai.ChatCompletion.create()` to create an enhanced query, that will increase the precision of the response to the final promt. Different roles are used to because newer models are trained to adhere to system messages. A system message is never part of the conversation and never accessible to the end-user. Therefore, it can be used to control the scope of the model’s interactions with the end-user. The user message can be used to ground the model into a specific behavior, but it cannot control it entirely. During the conversation, the user can instruct the model to contradict the statement given by the role user, as they have the same role, and the model cannot deny user asking to override their previous instructions. However, if there’s a system message, the model will give precedence to it over the user message [15].
+### 3. Vector Storage in Pinecone
 
-```Python
+Chunks are stored in Pinecone with metadata:
+
+```python
+docsearch = PineconeVectorStore.from_documents(
+    website_chunks,
+    embeddings,
+    index_name='rag2'
+)
+```
+
+Pinecone index configuration:
+- **Dimension**: 384 (matches embedding model)
+- **Metric**: Cosine similarity
+- **Spec**: AWS us-east-1 serverless
+- **Namespace**: Unique per session for isolation
+
+### 4. Query Refinement
+
+User queries are contextually enhanced:
+
+```python
 def query_refiner(conversation, query):
+    # Uses GPT-4 to reformulate query based on conversation history
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
-            {"role": "system", "content": "Given the following user query and conversation log, formulate a question that would be more relevant to the context."},
-            {"role": "user", "content": f"Conversation log: \n{conversation}\n\nQuery: {query}"}
-        ],
-        temperature=0.7,
-        max_tokens=256,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0)
+            {"role": "system", "content": "Formulate a relevant question..."},
+            {"role": "user", "content": f"Conversation: {conversation}\nQuery: {query}"}
+        ]
+    )
     return response.choices[0].message['content']
 ```
-## Matching vectors with the query
 
-Once we have a query, we can embed it, send it to the vector store and perform a semantic search between the query vector and the document chunks to retrieve the most relevant ones to include in the final promt. 
+**Example:**
+- **User**: "What is RAG?"
+- **Bot**: [explains RAG]
+- **User**: "How does it work?" ← vague
+- **Refined**: "How does Retrieval-Augmented Generation work?" ← specific
 
-```Python
-def find_context_chunks(input):
+### 5. Semantic Search
 
-    input_em = model.encode(input).tolist()
+The refined query is embedded and used to find similar chunks:
 
-    result = index.query(
-        vector = input_em, 
-        top_k = 3,
-        include_metadata=True)
-
-    output = []
-    
-    return output
+```python
+input_em = model.encode(refined_query).tolist()
+result = index.query(vector=input_em, top_k=3, include_metadata=True)
 ```
 
-In `main.py` we get the context by calling the `find_context_chunks()` function.
+Returns the 3 most semantically similar chunks based on **cosine similarity**.
 
-```Python
-context = find_context_chunks(refined_query)
-```
+### 6. Response Generation
 
-## Keeping the chat memory and creating the new promt (Langchain)
+GPT-4 generates a response using retrieved context:
 
-
-ConversationBufferMemory usage is straightforward. It simply keeps the entire conversation in the buffer memory up to the allowed max limit [18]
-
-```Python
-if 'buffer_memory' not in st.session_state:
-    st.session_state.buffer_memory = ConversationBufferWindowMemory(k = 3, return_messages = True)
-```
-LangChain provides different types of MessagePromptTemplate. The most commonly used are AIMessagePromptTemplate, SystemMessagePromptTemplate and HumanMessagePromptTemplate, which create an AI message, system message and human message respectively.
-
-```Python
-system_msg_template = SystemMessagePromptTemplate.from_template(
-    template="""Answer the question as truthfully as possible using the provided context, and if the answer is not contained within the text below, you can use general knowledge, but you must specify that the information are not fromthe provided context.'"""
-)
-
-human_msg_template = HumanMessagePromptTemplate.from_template(
-    template="{input}"
-    )
-```
-
-LangChain also provides MessagesPlaceholder, which gives you full control of what messages to be rendered during formatting. This can be useful when you are uncertain of what role you should be using for your message prompt templates or when you wish to insert a list of messages during formatting.
-
-```Python
-prompt_template = ChatPromptTemplate.from_messages([
-    system_msg_template, 
-    MessagesPlaceholder(variable_name="history"), 
-    human_msg_template
-    ])
-```
-
-Every call to a LLM is independent of previous calls. Therefore, by default, an LLM doesnt remember/have access to previous responses it has provided. A common fix for this is to include the conversation so far as part of the prompt sent to the LLM. In LangChain, this is achieved through a combination fo ConversationChain and ConversationBufferMemory classes. A typical implementation looks like this:
-
-```Python
-conversation = ConversationChain(
-    memory=st.session_state.buffer_memory, 
-    prompt=prompt_template, 
-    llm=llm, 
-    verbose=True
-    )
-```
-Here, we use the ConversationChain class to implement a LangChain chain that allows the addition of a memory to this workflow. The ConversationChain and ConversationBufferMemory ensure that every interaction between the user and the agent is logged and this entire history is incorporated into the prompt through the ‘history’ key of the input dict. [19]
-
-```Python
+```python
 response = conversation.predict(
-                    input=f"Context:\n {context} \n\n Query:\n{refined_query}"
-                    )
-
-st.session_state.requests.append(refined_query)
-st.session_state.responses.append(response) 
+    input=f"Context:\n{context}\n\nQuery:\n{refined_query}"
+)
 ```
 
-## Print the chat (Streamlit)
+The model is instructed to:
+- Prioritize provided context
+- Indicate when using general knowledge
+- Format long answers with bullet points
 
-The function `get_conversation_string()` loops through `st.session_state['requests']` and `st.session_state['responses']` at `[i]` and `[i+1]` simply because responses is initialised by a welcome message, therefore the correct indexing matching between requests and responses is `i` and `i+1`.
+## 🎓 Understanding RAG
 
-```Python
-def get_conversation_string():
-    conversation_string = ""
-    for i in range(len(st.session_state['responses'])-1):
-        conversation_string += "Human: "+ st.session_state['requests'][i] + "\n"
-        conversation_string += "Bot: "+ st.session_state['responses'][i+1] + "\n"
-    return conversation_string
+### Why RAG?
+
+Large Language Models (LLMs) like GPT-4 are trained on data up to a certain date and cannot access:
+- Current information
+- Private/proprietary documents
+- Specific webpage content
+
+**RAG solves this** by augmenting the LLM's context with retrieved, relevant information.
+
+### Closed Book vs. Open Book
+
+| Aspect | Closed Book (Standard LLM) | Open Book (RAG) |
+|--------|---------------------------|-----------------|
+| **Knowledge Source** | Training data only | External documents |
+| **Freshness** | Static (training cutoff) | Dynamic (real-time) |
+| **Hallucinations** | Higher risk | Lower risk (grounded) |
+| **Verifiability** | Difficult | Easy (citations) |
+| **Domain Specificity** | General | Specialized |
+
+### Benefits of Grounding
+
+By retrieving relevant context before generation, RAG:
+1. **Reduces hallucinations**: Responses are based on actual content
+2. **Enables citations**: Can point to source chunks
+3. **Improves accuracy**: Factual information is directly referenced
+4. **Saves costs**: No need for expensive fine-tuning
+
+## 🚢 Deployment
+
+### Two Ways to Use This App
+
+#### Option 1: Use the Live Demo (No Setup Required)
+
+**For End Users**: Simply visit the deployed app and start chatting - no API keys needed!
+
+- 🌐 **Live Demo**: [Your Deployed App URL]
+- 🔑 **API Keys**: Provided by the app (using developer's keys)
+- 💰 **Cost**: Free for you to use
+- ⚡ **Setup Time**: 0 minutes
+
+*Note: The live demo uses the developer's API keys. Please use responsibly!*
+
+#### Option 2: Clone and Self-Host (Full Control)
+
+**For Developers**: Clone the repository and use your own API keys.
+
+- 📦 **Cost**: You pay for your own API usage
+- 🔧 **Customization**: Full control over the code
+- 🚀 **Deployment**: Deploy to your own Streamlit Cloud account
+
+See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed instructions.
+
+### Deploy Your Own Instance to Streamlit Cloud
+
+1. **Push to GitHub**:
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git remote add origin https://github.com/yourusername/rag-chatbot.git
+   git push -u origin main
+   ```
+
+2. **Deploy on Streamlit Cloud**:
+   - Go to [share.streamlit.io](https://share.streamlit.io/)
+   - Click "New app"
+   - Connect your GitHub repository
+   - Set main file path: `src/main.py`
+   - Add **your API keys** in "Advanced settings" → "Secrets":
+     ```toml
+     OPENAI_API_KEY = "sk-your-actual-key-here"
+     PINECONE_API_KEY = "your-actual-key-here"
+     ```
+   - Click "Deploy"
+
+3. **Access your app**: Your app will be live at `https://yourusername-rag-chatbot.streamlit.app`
+
+**Important**: When you deploy to Streamlit Cloud with your API keys in secrets, visitors can use the app without providing their own keys. You pay for the API usage. See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for cost estimates and security best practices.
+
+### Deploy to Other Platforms
+
+<details>
+<summary><b>Heroku</b></summary>
+
+```bash
+# Install Heroku CLI, then:
+heroku create your-app-name
+heroku config:set OPENAI_API_KEY=your-key
+heroku config:set PINECONE_API_KEY=your-key
+git push heroku main
 ```
 
-In the `main.py` the following call is made to create the final refined query:
+Create a `Procfile`:
+```
+web: streamlit run src/main.py --server.port=$PORT
+```
+</details>
 
-```Python
-with textcontainer:
-        query = st.chat_input("", key="input")
-        if query:
-            conversation_string = get_conversation_string()
-            refined_query = query_refiner(conversation_string, query)
+<details>
+<summary><b>AWS EC2</b></summary>
+
+1. Launch EC2 instance (Ubuntu 22.04)
+2. SSH into instance and clone repository
+3. Install dependencies: `pip install -r requirements.txt`
+4. Set environment variables in `.env`
+5. Run with nohup: `nohup streamlit run src/main.py &`
+6. Configure security groups to allow port 8501
+</details>
+
+<details>
+<summary><b>Docker</b></summary>
+
+Create `Dockerfile`:
+```dockerfile
+FROM python:3.10-slim
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY . .
+
+EXPOSE 8501
+
+CMD ["streamlit", "run", "src/main.py"]
 ```
 
-At every iteration the chat is printed in the response container with the following instructions:
+Build and run:
+```bash
+docker build -t rag-chatbot .
+docker run -p 8501:8501 --env-file .env rag-chatbot
+```
+</details>
 
-```Python
-with response_container:
-    if st.session_state['responses']:
-        for i in range(len(st.session_state['responses'])):
-            with st.chat_message("user", avatar="🔗"):
-                st.write(
-                    st.session_state['responses'][i],
-                    key = str(i)
-                    )
-            if i < len(st.session_state['requests']):
-                with st.chat_message("ai", avatar="💬"):
-                    st.write(
-                        st.session_state["requests"][i], 
-                        is_user=True,
-                        key = str(i) + "_user"
-                        )
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Issue**: `ModuleNotFoundError: No module named 'openai'`
+```bash
+# Solution: Ensure virtual environment is activated
+source venv/bin/activate  # macOS/Linux
+pip install -r requirements.txt
 ```
 
-# ✨ Deploy the app
+**Issue**: `Pinecone index not found`
+```bash
+# Solution: Index is created automatically on first run
+# Wait for initialization to complete (~30 seconds)
+```
 
-1. Create the repository for the app. Your repository should contain two files:
-    ```
-    your-repository/
-    ├── main.py
-    ├── utils.py
-    └── requirements.txt
-    ```
+**Issue**: `API rate limit exceeded`
+```bash
+# Solution: Check your OpenAI/Pinecone usage limits
+# Reduce top_k value or upgrade API plan
+```
 
-2. Set Up the environment by installing `requirements.txt`:
-    ```
-    pip install -r requirements.txt
-    ```
+**Issue**: `KMP library duplicate error`
+```bash
+# Solution: Already handled in code via environment variable
+os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
+```
 
-3. Run the app by launching this command:
-    ```
-    python -m streamlit run main.py
-    ```
-# References
+## 🔐 Security Best Practices
 
-1. [Tutorial | Chat with any Website using Python and Langchain, ](https://www.youtube.com/watch?v=bupx08ZgSFg&ab_channel=AlejandroAO-Software%26Ai)
+- ✅ Never commit `.env` files to Git
+- ✅ Use environment variables for all secrets
+- ✅ Rotate API keys regularly
+- ✅ Set spending limits on OpenAI account
+- ✅ Use read-only Pinecone API keys when possible
 
-2. [How to Build a Retrieval-Augmented Generation Chatbo](https://www.anaconda.com/blog/how-to-build-a-retrieval-augmented-generation-chatbot)
+## 🤝 Contributing
 
-3. [General structure of this post](https://github.com/umbertogriffo/rag-chatbot?tab=readme-ov-file)
+Contributions are welcome! Please follow these steps:
 
-4. [Stanford CS25: V3 I Retrieval Augmented Language Models](https://www.youtube.com/watch?v=mE7IDf2SmJg&t=16s&ab_channel=StanfordOnline)
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-5. [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://doi.org/10.48550/arXiv.2005.11401)
+## 📚 References
 
-6. [Open Source LLMs: Viable for Production or a Low-Quality Toy?](https://www.anyscale.com/blog/open-source-llms-viable-for-production-or-a-low-quality-toy)
+This project builds upon research and best practices from:
 
-7. [A High-level Overview of Large Language Models](https://www.borealisai.com/research-blogs/a-high-level-overview-of-large-language-models/)
+1. [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://doi.org/10.48550/arXiv.2005.11401) - Original RAG paper
+2. [Stanford CS25: Retrieval Augmented Language Models](https://www.youtube.com/watch?v=mE7IDf2SmJg) - Foundational concepts
+3. [LangChain Documentation](https://python.langchain.com/docs/get_started/introduction) - Framework usage
+4. [Pinecone Vector Database Guide](https://docs.pinecone.io/) - Vector storage
+5. [OpenAI API Documentation](https://platform.openai.com/docs) - LLM integration
+6. [Streamlit Documentation](https://docs.streamlit.io/) - UI framework
 
-8. [Contemporary Large Language Models LLMs](https://www.kaggle.com/code/abireltaief/contemporary-large-language-models-llms)
+## 📄 License
 
-9. [AI Chip Market](https://research.aimultiple.com/ai-chip-makers/)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-10. [Building an Interactive Chatbot with Langchain, ChatGPT, Pinecone, and Streamlit](https://blog.futuresmart.ai/building-an-interactive-chatbot-with-langchain-chatgpt-pinecone-and-streamlit)
+## 👤 Author
 
-11. [Large language model](https://en.wikipedia.org/wiki/Large_language_model)
+**Jean Charles**
 
-12. [What is RAG? RAG + Langchain Python Project: Easy AI/Chat For Your Docs](https://www.youtube.com/watch?v=tcqEUSNCn8I&ab_channel=pixegami)
+- LinkedIn: [Your LinkedIn Profile](https://www.linkedin.com/in/yourprofile)
+- GitHub: [@yourusername](https://github.com/yourusername)
+- Portfolio: [Your Website](https://yourwebsite.com)
 
-13. [Vector database](https://en.wikipedia.org/wiki/Vector_database)
+## 🙏 Acknowledgments
 
-14. [What is a vector database?](https://learn.microsoft.com/en-us/semantic-kernel/memories/vector-db)
+- OpenAI for GPT-4 API
+- Pinecone for vector database infrastructure
+- LangChain community for excellent tooling
+- Hugging Face for sentence transformers
 
-15. [Purpose of the “system” role in OpenAI chat completions API](https://community.openai.com/t/purpose-of-the-system-role-in-openai-chat-completions-api/497739)
+---
 
-16. [Semantic Search](https://blog.dataiku.com/semantic-search-an-overlooked-nlp-superpower)
+⭐ **Star this repo** if you found it helpful!
 
-17. [Langchain Memory with LLMs for Advanced Conversational AI and Chatbots](https://blog.futuresmart.ai/langchain-memory-with-llms-for-advanced-conversational-ai-and-chatbots)
-
-18. [Conversational Memory with Langchain](https://medium.com/@michael.j.hamilton/conversational-memory-with-langchain-82c25e23ec60)
-
-19. [Breaking down LangChain : ChatOpenAI and ConversationChain](https://medium.com/@RSK2327/breaking-down-langchain-chatopenai-and-conversationchain-03565f421f78)
-
-20. [Build an LLM app using LangChain](https://docs.streamlit.io/knowledge-base/tutorials/llm-quickstart)
-
-21. [Retrieval-Augmented Generation (RAG): From Theory to LangChain Implementation](https://towardsdatascience.com/retrieval-augmented-generation-rag-from-theory-to-langchain-implementation-4e9bd5f6a4f2)
+📧 **Questions?** Open an issue or reach out on LinkedIn.
